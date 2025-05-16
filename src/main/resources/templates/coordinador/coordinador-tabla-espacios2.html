@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es" class="light-style layout-compact"
+      dir="ltr" data-theme="theme-semi-dark"
+      data-assets-path="/"
+      data-template="vertical-menu-template-semi-dark"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Espacios Deportivos</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-xicon" th:href="@{/img/icono.ico}">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" th:href="@{/vendor/fonts/boxicons.css}" />
+    <link rel="stylesheet" th:href="@{/vendor/fonts/fontawesome.css}" />
+    <link rel="stylesheet" th:href="@{/vendor/fonts/flag-icons.css}" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" th:href="@{/vendor/css/rtl/core.css}" class="template-customizer-core-css" />
+    <link rel="stylesheet" th:href="@{/vendor/css/rtl/theme-semi-dark.css}" class="template-customizer-theme-css" />
+    <link rel="stylesheet" th:href="@{/css/demo.css}" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" th:href="@{/vendor/libs/perfect-scrollbar/perfect-scrollbar.css}" />
+    <link rel="stylesheet" th:href="@{/vendor/libs/typeahead-js/typeahead.css}" />
+    <link rel="stylesheet" th:href="@{/vendor/libs/datatables-bs5/datatables.bootstrap5.css}">
+    <link rel="stylesheet" th:href="@{/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css}">
+    <link rel="stylesheet" th:href="@{/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css}">
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" th:href="@{/vendor/css/pages/page-profile.css}" />
+
+    <!-- Helpers -->
+    <script th:src="@{/vendor/js/helpers.js}"></script>
+    <script th:src="@{/js/config.js}"></script>
+</head>
+<body style="background-color: rgb(255, 242, 214);">
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <div class="layout-page">
+                <div th:replace="~{coordinador/navbarGeneral :: navbarFragment}"></div>
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card mb-4">
+                                    <div class="user-profile-header-banner">
+                                        <img th:src="@{/img/pages/profile-banner.png}" alt="Banner image" class="rounded-top">
+                                    </div>
+                                    <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
+                                        <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
+                                            <img th:src="@{/img/avatars/1.png}" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+                                        </div>
+                                        <div class="flex-grow-1 mt-3 mt-sm-5">
+                                            <div class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
+                                                <div class="user-profile-info">
+                                                    <h4 th:text="${session.usuario.nombres} + ' ' + ${session.usuario.apellidos}"></h4>
+                                                    <ul class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
+                                                        <li class="list-inline-item fw-medium"><i class='bx bx-star'></i> Coordinador</li>
+                                                        <li class="list-inline-item fw-medium"><i class='bx bx-map'></i> Lima</li>
+                                                        <li class="list-inline-item fw-medium">
+                                                            <i class='bx bx-calendar-alt'></i> <span th:text="${session.usuario.fechaCreacion}"></span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="nav nav-pills flex-column flex-sm-row mb-4">
+                                    <li class="nav-item"><a class="nav-link" href="/coordinador/perfil"><i class='bx bx-user me-1'></i> Perfil</a></li>
+                                    <li class="nav-item"><a class="nav-link active" href="/coordinador/espacios"><i class='bx bx-map-pin me-1'></i> Espacios Deportivos</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="/coordinador/asistencia"><i class='bx bx-user-check me-1'></i> Asistencia</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12">
+                                <div class="card mb-4">
+                                    <h5 class="card-header">Lista de Espacios Deportivos</h5>
+                                    <div class="table-responsive text-nowrap">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nombre</th>
+                                                    <th>Estado</th>
+                                                    <th>Ubicación</th>
+                                                    <th>Opciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-border-bottom-0">
+                                                <tr th:each="espacio : ${espacios}">
+                                                    <td><span class="fw-medium" th:text="${espacio.nombre}"></span></td>
+                                                    <td>
+                                                        <span class="badge me-1"
+                                                              th:classappend="${espacio.idEstadoEspacio.estado == 'Disponible'} ? 'bg-label-success' :
+                                                                              (${espacio.idEstadoEspacio.estado == 'Ocupado'} ? 'bg-label-danger' :
+                                                                              (${espacio.idEstadoEspacio.estado == 'Mantenimiento'} ? 'bg-label-warning' : 'bg-label-secondary'))"
+                                                              th:text="${espacio.idEstadoEspacio.estado}">
+                                                        </span>
+                                                    </td>
+
+                                                    <td th:text="${espacio.idLugar.lugar}"></td>
+                                                    <td>
+                                                        <!-- Botón en cada fila de la tabla -->
+                                                        <a th:href="@{/coordinador/detalles(id=${espacio.idEspacio})}"
+                                                           class="btn btn-label-primary btn-icon" title="Ver detalles">
+                                                            <i class="bx bx-show"></i>
+                                                        </a>
+                                                        <button type="button" class="btn btn-label-warning btn-icon" data-bs-toggle="dropdown" aria-expanded="false" title="Modificar estado"><i class="bx bx-pencil"></i></button>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a class="dropdown-item" th:onclick="'cambiarEstado(' + ${espacio.idEspacio} + ', \'Disponible\')'" href="#">Disponible</a></li>
+                                                            <li><a class="dropdown-item" th:onclick="'cambiarEstado(' + ${espacio.idEspacio} + ', \'Ocupado\')'" href="#">Ocupado</a></li>
+                                                            <li><a class="dropdown-item" th:onclick="'cambiarEstado(' + ${espacio.idEspacio} + ', \'Mantenimiento\')'" href="#">Mantenimiento</a></li>
+                                                        </ul>
+
+                                                        <button type="button" class="btn btn-label-info btn-icon"
+                                                                data-bs-toggle="modal"
+                                                                th:attr="data-bs-target='#modal-observacion-' + ${espacio.idEspacio}"
+                                                                title="Agregar observación">
+                                                            <i class="bx bx-comment"></i>
+                                                        </button>
+
+                                                    </td>
+                                                </tr>
+                                                <tr th:if="${#lists.isEmpty(espacios)}">
+                                                    <td colspan="4">No hay espacios disponibles.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal por cada espacio -->
+                        <div th:each="espacio : ${espacios}">
+                            <div class="modal-onboarding modal fade animate__animated" th:id="|modal-observacion-${espacio.idEspacio}|" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content text-center">
+                                        <div class="modal-header border-0">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body p-0">
+                                            <div class="onboarding-content mb-0">
+                                                <h4 class="onboarding-title text-body" th:text="'Espacio Deportivo: ' + ${espacio.nombre}"></h4>
+                                                <div class="onboarding-info">Agrega desde aquí alguna observación que tengas sobre este Espacio Deportivo.</div>
+                                                <form th:action="@{/coordinador/addObservacion}" method="post">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="mb-3">
+                                                                <label for="observacion" class="form-label">Observaciones</label>
+                                                                <textarea id="observacion" class="form-control" name="observacion" rows="5" placeholder="Ingresa tu(s) observación(es)..."></textarea>
+                                                                <input type="hidden" name="idEspacio" th:value="${espacio.idEspacio}" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer border-0">
+                                                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                        <button type="submit" class="btn btn-primary">Agregar</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="content-backdrop fade"></div>
+                </div>
+            </div>
+            <div class="layout-overlay layout-menu-toggle"></div>
+            <div class="drag-target"></div>
+        </div>
+    </div>
+    <script th:src="@{/vendor/libs/jquery/jquery.js}"></script>
+    <script th:src="@{/vendor/libs/popper/popper.js}"></script>
+    <script th:src="@{/vendor/js/bootstrap.js}"></script>
+    <script th:src="@{/vendor/libs/perfect-scrollbar/perfect-scrollbar.js}"></script>
+    <script th:src="@{/vendor/libs/hammer/hammer.js}"></script>
+    <script th:src="@{/vendor/libs/i18n/i18n.js}"></script>
+    <script th:src="@{/vendor/libs/typeahead-js/typeahead.js}"></script>
+    <script th:src="@{/vendor/js/menu.js}"></script>
+    <script th:src="@{/vendor/libs/datatables-bs5/datatables-bootstrap5.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/app-user-view-account.js}"></script>
+    <script th:src="@{/js/asistencia.js}"></script>
+
+    <script>
+        function cambiarEstado(idEspacio, nuevoEstado) {
+            $.post('/coordinador/updateEstado', { idEspacio: idEspacio, nuevoEstado: nuevoEstado }, function() {
+                location.reload();
+            });
+        }
+
+        function mostrarPopup(idEspacio, nombre) {
+            $('#observacionModal').modal('show');
+            $('#modalTitle').text('Espacio Deportivo ' + nombre);
+            $('#idEspacio').val(idEspacio);
+        }
+    </script>
+</body>
+</html>
