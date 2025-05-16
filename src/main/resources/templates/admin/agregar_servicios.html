@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr" data-theme="theme-semi-dark" data-assets-path="/" data-template="vertical-menu-template-semi-dark">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org" lang="es" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr" data-theme="theme-semi-dark" data-assets-path="/" data-template="vertical-menu-template-semi-dark">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
@@ -52,7 +52,6 @@
 
     <!-- Helpers -->
     <script th:src="@{/vendor/js/helpers.js}"></script>
-    <script th:src="@{/vendor/js/template-customizer.js}"></script>
     <script th:src="@{/js/config.js}"></script>
 </head>
 
@@ -84,7 +83,9 @@
                             <div class="card mb-4">
                                 <h5 class="card-header">Registro de Nuevo Espacio</h5>
                                 <div class="card-body">
+
                                     <form th:action="@{/admin/agregar_servicios}" th:object="${espacio}" method="post" enctype="multipart/form-data">
+
                                         <!-- Campo: Nombre -->
                                         <div class="mb-3 row">
                                             <label for="nombre" class="col-md-2 col-form-label">Nombre</label>
@@ -93,11 +94,24 @@
                                             </div>
                                         </div>
 
-                                        <!-- Campo: Tipo -->
+                                        <!-- Campo: Costo -->
                                         <div class="mb-3 row">
-                                            <label for="tipo" class="col-md-2 col-form-label">Tipo</label>
+                                            <label for="costo" class="col-md-2 col-form-label">Costo</label>
                                             <div class="col-md-10">
-                                                <input class="form-control" type="text" id="tipo" th:field="*{tipo}" required />
+                                                <input class="form-control" type="number" step="0.01" id="costo" th:field="*{costo}" required />
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo: Lugar -->
+                                        <div class="mb-3 row">
+                                            <label for="idLugar" class="col-md-2 col-form-label">Lugar</label>
+                                            <div class="col-md-10">
+                                                <select id="idLugar" class="form-select" th:field="*{idLugar.idLugar}" required>
+                                                    <option value="" disabled selected>Seleccione un lugar</option>
+                                                    <option th:each="lugar : ${lugar}"
+                                                            th:value="${lugar.idLugar}"
+                                                            th:text="${lugar.lugar}"></option>
+                                                </select>
                                             </div>
                                         </div>
 
@@ -105,37 +119,47 @@
                                         <div class="mb-3 row">
                                             <label for="idEstadoEspacio" class="col-md-2 col-form-label">Estado</label>
                                             <div class="col-md-10">
-                                                <select class="form-control" id="idEstadoEspacio" th:field="*{idEstadoEspacio.idEstadoEspacio}" required>
-                                                    <option value="">Seleccione un estado...</option>
+                                                <select id="idEstadoEspacio" class="form-select" th:field="*{idEstadoEspacio.idEstadoEspacio}" required>
+                                                    <option value="" disabled selected>Seleccione un estado</option>
                                                     <option th:each="estado : ${estados}"
                                                             th:value="${estado.idEstadoEspacio}"
-                                                            th:text="${estado.estado}">
-                                                    </option>
+                                                            th:text="${estado.estado}"></option>
                                                 </select>
                                             </div>
                                         </div>
 
-                                        <!-- Campo: Costo -->
+                                        <!-- Campo: Tipo -->
                                         <div class="mb-3 row">
-                                            <label for="costo" class="col-md-2 col-form-label">Costo</label>
+                                            <label for="tipo" class="col-md-2 col-form-label">Tipo</label>
                                             <div class="col-md-10">
-                                                <input class="form-control" type="text" id="costo" th:field="*{costo}" required />
+                                                <select id="tipo" class="form-select" th:field="*{tipo}" required>
+                                                    <option value="" disabled selected>Seleccione un tipo</option>
+                                                    <option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo}"></option>
+                                                </select>
                                             </div>
                                         </div>
 
-                                        <!-- Campo: Observaciones -->
+                                        <!-- Campo: Foto 1 -->
                                         <div class="mb-3 row">
-                                            <label for="observaciones" class="col-md-2 col-form-label">Observaciones</label>
+                                            <label for="foto1" class="col-md-2 col-form-label">Foto 1</label>
                                             <div class="col-md-10">
-                                                <textarea class="form-control" id="observaciones" th:field="*{observaciones}"></textarea>
+                                                <input class="form-control" type="file" id="foto1" name="foto1File" accept="image/*" />
                                             </div>
                                         </div>
 
-                                        <!-- Campo: Lugar -->
+                                        <!-- Campo: Foto 2 -->
                                         <div class="mb-3 row">
-                                            <label for="nombreLugar" class="col-md-2 col-form-label">Nombre del Lugar</label>
+                                            <label for="foto2" class="col-md-2 col-form-label">Foto 2</label>
                                             <div class="col-md-10">
-                                                <input class="form-control" type="text" id="nombreLugar" name="nombreLugar" placeholder="Nombre del lugar" required />
+                                                <input class="form-control" type="file" id="foto2" name="foto2File" accept="image/*" />
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo: Foto 3 -->
+                                        <div class="mb-3 row">
+                                            <label for="foto3" class="col-md-2 col-form-label">Foto 3</label>
+                                            <div class="col-md-10">
+                                                <input class="form-control" type="file" id="foto3" name="foto3File" accept="image/*" />
                                             </div>
                                         </div>
 
@@ -150,6 +174,9 @@
                                 </div>
                             </div>
                         </div>
+
+
+
                     </div>
                 </div>
                 <div class="content-backdrop fade"></div>

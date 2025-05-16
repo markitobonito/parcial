@@ -14,7 +14,7 @@ public class Geolocalizacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idGeolocalizacion", nullable = false)
-    private int idGeolocalizacion;
+    private Integer idGeolocalizacion;
 
     @Column(name="fecha")
     private Date fecha;

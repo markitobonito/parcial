@@ -15,7 +15,7 @@ public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idReserva", nullable = false)
-    private int idReserva;
+    private Integer idReserva;
 
     @Column(name="horaInicio")
     private Time horaInicio;
@@ -51,4 +51,7 @@ public class Reserva {
 
     @Column(name="momentoReserva")
     private Timestamp momentoReserva;
+
+    @Column(name="tipoPago")
+    private String tipoPago;
 }

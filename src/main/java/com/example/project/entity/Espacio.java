@@ -11,7 +11,7 @@ public class Espacio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idEspacio", nullable = false)
-    private int idEspacio;
+    private Integer idEspacio;
     @Column(name="nombre")
     private String nombre;
 
@@ -22,6 +22,12 @@ public class Espacio {
     @ManyToOne
     @JoinColumn(name="idEstadoEspacio")
     private EstadoEspacio idEstadoEspacio;
+
+    @Column(name="observaciones", length = 1000)
+    private String observaciones;
+
+    @Column(name="tipo")
+    private String tipo;
 
     @Column(name="costo")
     private Double costo;

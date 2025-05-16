@@ -10,7 +10,7 @@ public class Lugar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idLugar", nullable = false)
-    private int idLugar;
+    private Integer idLugar;
 
     @Column(name="lugar", nullable = false)
     private String lugar;

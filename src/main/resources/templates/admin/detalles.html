@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr" data-theme="theme-semi-dark" data-assets-path="/assets/" data-template="vertical-menu-template-semi-dark">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org" lang="es" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr" data-theme="theme-semi-dark" data-assets-path="/" data-template="vertical-menu-template-semi-dark">
 
 
 <!-- Mirrored from demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template-semi-dark/tables-datatables-basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Apr 2024 23:16:07 GMT -->
@@ -26,7 +26,7 @@
     <!-- End Google Tag Manager -->
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/favicon/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/img/favicon/favicon.ico" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com/">
@@ -34,38 +34,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet">
 
     <!-- Icons -->
-    <link rel="stylesheet" href="/assets/vendor/fonts/boxicons.css" />
-    <link rel="stylesheet" href="/assets/vendor/fonts/fontawesome.css" />
-    <link rel="stylesheet" href="/assets/vendor/fonts/flag-icons.css" />
+    <link rel="stylesheet" href="/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="/vendor/fonts/fontawesome.css" />
+    <link rel="stylesheet" href="/vendor/fonts/flag-icons.css" />
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="/assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="/assets/vendor/css/rtl/theme-semi-dark.css" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="/assets/css/demo.css" />
+    <link rel="stylesheet" href="/vendor/css/rtl/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="/vendor/css/rtl/theme-semi-dark.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/css/demo.css" />
 
     <!-- Vendors CSS -->
-    <link rel="stylesheet" href="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-    <link rel="stylesheet" href="/assets/vendor/libs/typeahead-js/typeahead.css" />
-    <link rel="stylesheet" href="/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css">
-    <link rel="stylesheet" href="/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css">
-    <link rel="stylesheet" href="/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css">
-    <link rel="stylesheet" href="/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css">
-    <link rel="stylesheet" href="/assets/vendor/libs/flatpickr/flatpickr.css" />
+    <link rel="stylesheet" href="/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="/vendor/libs/datatables-bs5/datatables.bootstrap5.css">
+    <link rel="stylesheet" href="/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css">
+    <link rel="stylesheet" href="/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css">
+    <link rel="stylesheet" href="/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css">
+    <link rel="stylesheet" href="/vendor/libs/flatpickr/flatpickr.css" />
     <!-- Row Group CSS -->
-    <link rel="stylesheet" href="/assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css">
+    <link rel="stylesheet" href="/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css">
     <!-- Form Validation -->
-    <link rel="stylesheet" href="/assets/vendor/libs/%40form-validation/form-validation.css" />
+    <link rel="stylesheet" href="/vendor/libs/%40form-validation/form-validation.css" />
 
     <!-- Page CSS -->
 
 
     <!-- Helpers -->
-    <script src="/assets/vendor/js/helpers.js"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
-    <script src="/assets/vendor/js/template-customizer.js"></script>
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="/assets/js/config.js"></script>
+    <script src="/vendor/js/helpers.js"></script>
+    <script src="/js/config.js"></script>
 
 </head>
 
@@ -90,98 +86,71 @@
                 <!-- Content -->
 
                 <div class="container-xxl container-p-y">
-
-                    <!-- /Select2 -->
-
                     <div class="card">
                         <div class="card-body row g-3">
                             <div class="col-lg-7">
-
                                 <!-- Título espacio -->
                                 <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
-                                    <h2 class="mb-2 text-uppercase" style="color: black; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Espacio Deportivo 1</h2>
-
+                                    <h2 class="mb-2 text-uppercase"
+                                        style="color: black; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
+                                        th:text="${espacio.nombre}">Nombre del Espacio</h2>
                                     <div class="d-flex align-items-center">
-                                        <span class="badge bg-body" style="color: gray;">Grass sintético</span>
+                                        <span class="badge bg-body" style="color: gray;" th:text="${espacio.tipo}">Tipo del espacio</span>
                                         <i class='bx bx-share-alt bx-sm mx-4 cursor-pointer'></i>
                                     </div>
                                 </div>
                                 <!-- /Título espacio -->
 
-                                <!-- Carrusel Fotos -->
-                                <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-                                    <div class="carousel-indicators">
-                                        <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                        <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                        <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                                    </div>
-                                    <div class="carousel-inner">
-                                        <div class="carousel-item active">
-                                            <img class="d-block w-100 cursor-pointer" src="https://i.ibb.co/pjDVdsd7/vintage-landscapes-with-buildings.jpg" alt="espacio 1 primera foto" />
-                                        </div>
-                                        <div class="carousel-item">
-                                            <img class="d-block w-100 cursor-pointer" src="https://i.ibb.co/pjDVdsd7/vintage-landscapes-with-buildings.jpg" alt="espacio 1 segunda foto" />
-                                        </div>
-                                        <div class="carousel-item">
-                                            <img class="d-block w-100 cursor-pointer" src="https://i.ibb.co/pjDVdsd7/vintage-landscapes-with-buildings.jpg" alt="espacio 1 tecera foto" />
-                                        </div>
-                                    </div>
-                                    <a class="carousel-control-prev" href="#carouselExample" role="button" data-bs-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Previous</span>
-                                    </a>
-                                    <a class="carousel-control-next" href="#carouselExample" role="button" data-bs-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Next</span>
-                                    </a>
+                                <!-- Foto del espacio -->
+                                <div class="mb-4 text-center" th:if="${espacio.foto1 != null}">
+                                    <img class="img-fluid rounded"
+                                         th:src="'data:image/png;base64,' + ${T(org.apache.tomcat.util.codec.binary.Base64).encodeBase64String(espacio.foto1)}"
+                                         alt="Foto del espacio 1"
+                                         style="max-height: 300px; object-fit: cover;" />
                                 </div>
-                                <!-- /Carrusel Fotos -->
+                                <p class="text-muted text-center" th:if="${espacio.foto1 == null}">No se ha registrado una imagen 1.</p>
+
+                                <div class="mb-4 text-center" th:if="${espacio.foto2 != null}">
+                                    <img class="img-fluid rounded"
+                                         th:src="'data:image/png;base64,' + ${T(org.apache.tomcat.util.codec.binary.Base64).encodeBase64String(espacio.foto2)}"
+                                         alt="Foto del espacio 2"
+                                         style="max-height: 300px; object-fit: cover;" />
+                                </div>
+                                <p class="text-muted text-center" th:if="${espacio.foto2 == null}">No se ha registrado una imagen 2.</p>
+
+                                <div class="mb-4 text-center" th:if="${espacio.foto3 != null}">
+                                    <img class="img-fluid rounded"
+                                         th:src="'data:image/png;base64,' + ${T(org.apache.tomcat.util.codec.binary.Base64).encodeBase64String(espacio.foto3)}"
+                                         alt="Foto del espacio 3"
+                                         style="max-height: 300px; object-fit: cover;" />
+                                </div>
+                                <p class="text-muted text-center" th:if="${espacio.foto3 == null}">No se ha registrado una imagen 3.</p>
+
+                                <!-- /Foto del espacio -->
 
                             </div>
 
                             <div class="col-lg-5">
-                                <h4 class="text-primary mt-2">Descripción</h4>
-                                <p class="mb-4 text-dark">
-                                    El Espacio Deportivo 1 cuenta con una cancha de grass sintético ideal para la práctica de fútbol, entrenamientos,
-                                    actividades recreativas y eventos deportivos. Su superficie es resistente, de bajo mantenimiento y adecuada para
-                                    todas las edades. <br><br>
-                                    Ubicada en una zona accesible y segura, esta cancha está equipada con iluminación para actividades
-                                    nocturnas y cercanía a baños públicos y bebederos. <br><br>
-                                    Recuerda cumplir con nuestras <a href="normas.html" style="color: blue; text-decoration: underline;">normas y reglamento de uso</a>.
-                                </p>
-
-                                <!-- Para más párrafos -->
-
-                                <h4 class="text-primary">Más detalles</h4>
-                                <div class="d-flex flex-wrap justify-content-center">
-                                    <div class="me-5">
-                                        <p class="text-dark"><i class='bx bxs-badge-dollar bx-sm me-2'></i>Costo por hora:  <span style="font-weight: bold;"> s/ 50.00</span></p>
-                                        <p class="text-dark"><i class="bx bx-check bx-sm me-2"></i>Iluminación nocturna</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-dark"><i class='bx bx-group bx-sm me-2'></i>Aforo máximo: <span style="font-weight: bold;"> 70</span> personas</p>
-                                        <p class="text-dark"><i class="bx bx-check bx-sm me-2"></i>Baños</p>
-                                    </div>
-                                </div>
-                                <h4 class="text-primary">Ubicación</h4>
-                                <p class="text-dark">Aquí irá un mapa con la ubicación exacta</p>
+                                <h4 class="text-primary mt-2">Detalles del Espacio</h4>
+                                <p class="text-dark"><strong>Lugar:</strong> <span th:text="${espacio.idLugar.lugar}">Nombre del lugar</span></p>
+                                <p class="text-dark"><strong>Estado:</strong> <span th:text="${espacio.idEstadoEspacio.estado}">Estado del espacio</span></p>
+                                <p class="text-dark"><strong>Tipo:</strong> <span th:text="${espacio.tipo}">Tipo</span></p>
+                                <p class="text-dark"><strong>Costo:</strong> S/ <span th:text="${espacio.costo}">0.00</span></p>
 
                                 <div class="row pt-1" style="text-align: center;">
                                     <div class="col">
-                                        <a href="vecino-disponibilidad-espacio.html" class="btn btn-facebook" style="font-size: 1rem; border-radius: 15px; margin: 0 20px;">Ver Disponibilidad</a>
-                                        <a href="vecino-ver-espacios.html" class="btn btn-primary" style="font-size: 1rem; border-radius: 15px; margin: 0 20px;">Regresar</a>
+                                        <a th:href="@{/espacios_deportivos/}" class="btn btn-primary"
+                                           style="font-size: 1rem; border-radius: 15px; margin: 0 20px;">Volver</a>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
-
-
                     <div class="content-backdrop fade"></div>
                 </div>
+
                 <!-- Content -->
+
 
                 <!-- Content wrapper -->
             </div>
@@ -211,33 +180,33 @@
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
 
-    <script src="/assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="/assets/vendor/libs/popper/popper.js"></script>
-    <script src="/assets/vendor/js/bootstrap.js"></script>
-    <script src="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="/assets/vendor/libs/hammer/hammer.js"></script>
-    <script src="/assets/vendor/libs/i18n/i18n.js"></script>
-    <script src="/assets/vendor/libs/typeahead-js/typeahead.js"></script>
-    <script src="/assets/vendor/js/menu.js"></script>
+    <script src="/vendor/libs/jquery/jquery.js"></script>
+    <script src="/vendor/libs/popper/popper.js"></script>
+    <script src="/vendor/js/bootstrap.js"></script>
+    <script src="/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="/vendor/libs/hammer/hammer.js"></script>
+    <script src="/vendor/libs/i18n/i18n.js"></script>
+    <script src="/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="/vendor/js/menu.js"></script>
 
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-    <script src="/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+    <script src="/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
     <!-- Flat Picker -->
-    <script src="/assets/vendor/libs/moment/moment.js"></script>
-    <script src="/assets/vendor/libs/flatpickr/flatpickr.js"></script>
+    <script src="/vendor/libs/moment/moment.js"></script>
+    <script src="/vendor/libs/flatpickr/flatpickr.js"></script>
     <!-- Form Validation -->
-    <script src="/assets/vendor/libs/%40form-validation/popular.js"></script>
-    <script src="/assets/vendor/libs/%40form-validation/bootstrap5.js"></script>
-    <script src="/assets/vendor/libs/%40form-validation/auto-focus.js"></script>
+    <script src="/vendor/libs/%40form-validation/popular.js"></script>
+    <script src="/vendor/libs/%40form-validation/bootstrap5.js"></script>
+    <script src="/vendor/libs/%40form-validation/auto-focus.js"></script>
 
     <!-- Main JS -->
-    <script src="/assets/js/main.js"></script>
+    <script src="/js/main.js"></script>
 
 
     <!-- Page JS -->
-    <script src="/assets/js/tables-datatables-basic.js"></script>
+    <script src="/js/tables-datatables-basic.js"></script>
 </div>
 
 </body>

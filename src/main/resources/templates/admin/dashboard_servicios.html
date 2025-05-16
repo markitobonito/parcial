@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr" data-theme="theme-semi-dark" data-assets-path="/" data-template="vertical-menu-template-semi-dark">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org" lang="es" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr" data-theme="theme-semi-dark" data-assets-path="/" data-template="vertical-menu-template-semi-dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
@@ -53,7 +53,6 @@
 
   <!-- Helpers -->
   <script th:src="@{/vendor/js/helpers.js}"></script>
-  <script th:src="@{/vendor/js/template-customizer.js}"></script>
   <script th:src="@{/js/config.js}"></script>
 </head>
 
@@ -87,6 +86,7 @@
 
           <!-- Card Border Shadow -->
           <div class="row">
+            <!-- Card Border Shadow -->
             <div class="col-sm-6 col-lg-3 mb-4">
               <div class="card card-border-shadow-primary h-100">
                 <div class="card-body">
@@ -94,13 +94,13 @@
                     <div class="avatar me-2">
                       <span class="avatar-initial rounded bg-label-primary"><i class="bx bx-water"></i></span>
                     </div>
-                    <h4 class="ms-1 mb-0">2</h4>
+                    <span th:text="${cantidadPiscinas}">0</span>
                   </div>
                   <p class="mb-1">Piscinas</p>
-
                 </div>
               </div>
             </div>
+
             <div class="col-sm-6 col-lg-3 mb-4">
               <div class="card card-border-shadow-warning h-100">
                 <div class="card-body">
@@ -108,13 +108,13 @@
                     <div class="avatar me-2">
                       <span class="avatar-initial rounded bg-label-warning"><i class='bx bx-dumbbell'></i></span>
                     </div>
-                    <h4 class="ms-1 mb-0">8</h4>
+                    <h4 class="ms-1 mb-0" th:text="${cantidadGimnasios}">0</h4>
                   </div>
                   <p class="mb-1">Gimnasios</p>
-
                 </div>
               </div>
             </div>
+
             <div class="col-sm-6 col-lg-3 mb-4">
               <div class="card card-border-shadow-danger h-100">
                 <div class="card-body">
@@ -122,7 +122,7 @@
                     <div class="avatar me-2">
                       <span class="avatar-initial rounded bg-label-danger"><i class='bx bx-football'></i></span>
                     </div>
-                    <h4 class="ms-1 mb-0">10</h4>
+                    <h4 class="ms-1 mb-0" th:text="${cantidadCanchaLoza}">0</h4>
                   </div>
                   <p class="mb-1">Cancha de fútbol (loza)</p>
 
@@ -130,12 +130,13 @@
                     <div class="avatar me-2">
                       <span class="avatar-initial rounded bg-label-info"><i class="fas fa-archway"></i></span>
                     </div>
-                    <h4 class="ms-1 mb-0">5</h4>
+                    <h4 class="ms-1 mb-0" th:text="${cantidadCanchaGrass}">0</h4>
                   </div>
-                  <p class="mb-1">Cancha de futbol (Grass sintético)</p>
+                  <p class="mb-1">Cancha de fútbol (Grass sintético)</p>
                 </div>
               </div>
             </div>
+
             <div class="col-sm-6 col-lg-3 mb-4">
               <div class="card card-border-shadow-info h-100">
                 <div class="card-body">
@@ -143,10 +144,9 @@
                     <div class="avatar me-2">
                       <span class="avatar-initial rounded bg-label-info"><i class="bx bx-run"></i></span>
                     </div>
-                    <h4 class="ms-1 mb-0">5</h4>
+                    <h4 class="ms-1 mb-0" th:text="${cantidadPistaAtletismo}">0</h4>
                   </div>
                   <p class="mb-1">Pista de atletismo</p>
-
                 </div>
               </div>
             </div>
@@ -158,22 +158,69 @@
               <div class="card h-100">
                 <div class="card-header">
                   <div class="card-title mb-0">
-                    <h5 class="m-0">Reservadosw</h5>
+                    <h5 class="m-0">Reservados</h5>
                   </div>
                 </div>
                 <div class="card-body">
                   <div class="d-none d-lg-flex vehicles-progress-labels mb-3">
-                    <div class="vehicles-progress-label on-the-way-text" style="width: 39.7%;">Piscinas</div>
-                    <div class="vehicles-progress-label unloading-text" style="width: 28.3%;">Gimnasios</div>
-                    <div class="vehicles-progress-label loading-text" style="width: 17.4%;">Canchas de futbol</div>
-                    <div class="vehicles-progress-label waiting-text" style="width: 14.6%;">Pista de atletismo</div>
+                    <div class="vehicles-progress-label on-the-way-text"
+                         th:style="'width: ' + ${resumen[2].porcentajeUso} + '%'">
+                      Piscinas
+                    </div>
+                    <div class="vehicles-progress-label unloading-text"
+                         th:style="'width: ' + ${resumen[4].porcentajeUso} + '%'">
+                      Gimnasios
+                    </div>
+                    <div class="vehicles-progress-label loading-text"
+                         th:style="'width: ' + ${resumen[0].porcentajeUso} + '%'">
+                      Cancha de Grass
+                    </div>
+                    <div class="vehicles-progress-label loading-text"
+                         th:style="'width: ' + ${resumen[1].porcentajeUso} + '%'">
+                      Cancha de Loza
+                    </div>
+                    <div class="vehicles-progress-label waiting-text"
+                         th:style="'width: ' + ${resumen[3].porcentajeUso} + '%'">
+                      Pista de atletismo
+                    </div>
                   </div>
-                  <div class="vehicles-overview-progress progress rounded-2 mb-3" style="height: 46px;">
-                    <div class="progress-bar fs-big fw-medium text-start bg-lighter text-body px-1 px-lg-3 rounded-start shadow-none" role="progressbar" style="width: 39.7%" aria-valuenow="39.7" aria-valuemin="0" aria-valuemax="100">39.7%</div>
-                    <div class="progress-bar fs-big fw-medium text-start bg-primary px-1 px-lg-3 shadow-none" role="progressbar" style="width: 28.3%" aria-valuenow="28.3" aria-valuemin="0" aria-valuemax="100">28.3%</div>
-                    <div class="progress-bar fs-big fw-medium text-start text-bg-info px-1 px-lg-3 shadow-none" role="progressbar" style="width: 17.4%" aria-valuenow="17.4" aria-valuemin="0" aria-valuemax="100">17.4%</div>
-                    <div class="progress-bar fs-big fw-medium text-start bg-gray-900 px-1 px-lg-3 rounded-end shadow-none" role="progressbar" style="width: 14.6%" aria-valuenow="14.6" aria-valuemin="0" aria-valuemax="100">14.6%</div>
 
+                  <div class="vehicles-overview-progress progress rounded-2 mb-3" style="height: 46px;">
+                    <div class="progress-bar fs-big fw-medium text-start bg-lighter text-body px-1 px-lg-3 rounded-start shadow-none"
+                         role="progressbar"
+                         th:style="'width: ' + ${resumen[2].porcentajeUso} + '%'"
+                         th:aria-valuenow="${resumen[2].porcentajeUso}"
+                         aria-valuemin="0" aria-valuemax="100"
+                         th:text="${resumen[2].porcentajeUso} + '%'">
+                    </div>
+                    <div class="progress-bar fs-big fw-medium text-start bg-primary px-1 px-lg-3 shadow-none"
+                         role="progressbar"
+                         th:style="'width: ' + ${resumen[4].porcentajeUso} + '%'"
+                         th:aria-valuenow="${resumen[4].porcentajeUso}"
+                         aria-valuemin="0" aria-valuemax="100"
+                         th:text="${resumen[4].porcentajeUso} + '%'">
+                    </div>
+                    <div class="progress-bar fs-big fw-medium text-start text-bg-info px-1 px-lg-3 shadow-none"
+                         role="progressbar"
+                         th:style="'width: ' + ${resumen[0].porcentajeUso} + '%'"
+                         th:aria-valuenow="${resumen[0].porcentajeUso}"
+                         aria-valuemin="0" aria-valuemax="100"
+                         th:text="${resumen[0].porcentajeUso} + '%'">
+                    </div>
+                    <div class="progress-bar fs-big fw-medium text-start text-bg-warning px-1 px-lg-3 shadow-none"
+                         role="progressbar"
+                         th:style="'width: ' + ${resumen[1].porcentajeUso} + '%'"
+                         th:aria-valuenow="${resumen[1].porcentajeUso}"
+                         aria-valuemin="0" aria-valuemax="100"
+                         th:text="${resumen[1].porcentajeUso} + '%'">
+                    </div>
+                    <div class="progress-bar fs-big fw-medium text-start bg-gray-900 px-1 px-lg-3 rounded-end shadow-none"
+                         role="progressbar"
+                         th:style="'width: ' + ${resumen[3].porcentajeUso} + '%'"
+                         th:aria-valuenow="${resumen[3].porcentajeUso}"
+                         aria-valuemin="0" aria-valuemax="100"
+                         th:text="${resumen[3].porcentajeUso} + '%'">
+                    </div>
                   </div>
 
                   <div class="table-responsive">
@@ -189,42 +236,58 @@
                           </div>
                         </td>
                         <td class="text-end pe-0 text-nowrap">
-                          <h6 class="mb-0">3</h6>
+                          <h6 class="mb-0" th:text="${cantidadPiscinas}">3</h6>
                         </td>
                         <td class="text-end pe-0">
-                          <span class="fw-medium">39.7%</span>
+                          <span class="fw-medium" th:text="${resumen[2].porcentajeUso} + '%'">39.7%</span>
                         </td>
                       </tr>
                       <tr>
                         <td class="w-50 ps-0">
                           <div class="d-flex justify-content-start align-items-center">
                             <div class="me-2">
-                              <i class='bx bx-dumbbell'></i>
+                              <i class="bx bx-dumbbell"></i>
                             </div>
                             <h6 class="mb-0 fw-normal">Gimnasios</h6>
                           </div>
                         </td>
                         <td class="text-end pe-0 text-nowrap">
-                          <h6 class="mb-0">4</h6>
+                          <h6 class="mb-0" th:text="${cantidadGimnasios}">4</h6>
                         </td>
                         <td class="text-end pe-0">
-                          <span class="fw-medium">28.3%</span>
+                          <span class="fw-medium" th:text="${resumen[4].porcentajeUso} + '%'">28.3%</span>
                         </td>
                       </tr>
                       <tr>
                         <td class="w-50 ps-0">
                           <div class="d-flex justify-content-start align-items-center">
                             <div class="me-2">
-                              <i class="fas fa-archway"></i>
+                              <i class="fas fa-futbol"></i>
                             </div>
-                            <h6 class="mb-0 fw-normal">Canchas de futbol</h6>
+                            <h6 class="mb-0 fw-normal">Cancha de fútbol - Grass</h6>
                           </div>
                         </td>
                         <td class="text-end pe-0 text-nowrap">
-                          <h6 class="mb-0">7</h6>
+                          <h6 class="mb-0" th:text="${cantidadCanchaGrass}">3</h6>
                         </td>
                         <td class="text-end pe-0">
-                          <span class="fw-medium">17.4%</span>
+                          <span class="fw-medium" th:text="${resumen[0].porcentajeUso} + '%'">10.2%</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="w-50 ps-0">
+                          <div class="d-flex justify-content-start align-items-center">
+                            <div class="me-2">
+                              <i class="fas fa-futbol"></i>
+                            </div>
+                            <h6 class="mb-0 fw-normal">Cancha de fútbol - Loza</h6>
+                          </div>
+                        </td>
+                        <td class="text-end pe-0 text-nowrap">
+                          <h6 class="mb-0" th:text="${cantidadCanchaLoza}">4</h6>
+                        </td>
+                        <td class="text-end pe-0">
+                          <span class="fw-medium" th:text="${resumen[1].porcentajeUso} + '%'">7.2%</span>
                         </td>
                       </tr>
                       <tr>
@@ -237,10 +300,10 @@
                           </div>
                         </td>
                         <td class="text-end pe-0 text-nowrap">
-                          <h6 class="mb-0">8</h6>
+                          <h6 class="mb-0" th:text="${cantidadPistaAtletismo}">8</h6>
                         </td>
                         <td class="text-end pe-0">
-                          <span class="fw-medium">14.6%</span>
+                          <span class="fw-medium" th:text="${resumen[3].porcentajeUso} + '%'">14.6%</span>
                         </td>
                       </tr>
                       </tbody>
@@ -249,6 +312,8 @@
                 </div>
               </div>
             </div>
+
+
             <!--/ Vehicles overview -->
 
             <div class="col-lg-6 col-xxl-6 mb-4 order-3 order-xxl-1">
@@ -294,19 +359,61 @@
             </div>
 
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script>
+            <script th:inline="javascript">
+              /*<![CDATA[*/
               document.addEventListener('DOMContentLoaded', function () {
                 const ctx = document.getElementById('reservationTrendsChart').getContext('2d');
+
+                // Tendencias viene como lista con anio, mes, dia, tipoEspacio y totalReservas
+                const tendencias = /*[[${tendencias}]]*/ [];
+
+                // Función para formatear la fecha a yyyy-MM-dd con ceros a la izquierda
+                function formatearFecha(anio, mes, dia) {
+                  const mm = mes.toString().padStart(2, '0');
+                  const dd = dia.toString().padStart(2, '0');
+                  return `${anio}-${mm}-${dd}`;
+                }
+
+                // Extraer todas las fechas únicas ordenadas para labels
+                const fechasSet = new Set();
+                tendencias.forEach(t => {
+                  const fechaStr = formatearFecha(t.anio, t.mes, t.dia);
+                  fechasSet.add(fechaStr);
+                });
+                const fechas = Array.from(fechasSet).sort();
+
+                // Extraer tipos de espacio únicos
+                const tiposSet = new Set();
+                tendencias.forEach(t => tiposSet.add(t.tipoEspacio));
+                const tipos = Array.from(tiposSet);
+
+                // Construir un mapa para datos por tipoEspacio y fecha
+                const datosPorTipo = {};
+                tipos.forEach(tipo => {
+                  datosPorTipo[tipo] = fechas.map(fecha => {
+                    // Buscar el total reservas para ese tipo y fecha
+                    const item = tendencias.find(t => {
+                      const f = formatearFecha(t.anio, t.mes, t.dia);
+                      return t.tipoEspacio === tipo && f === fecha;
+                    });
+                    return item ? item.totalReservas : 0;
+                  });
+                });
+
+                // Crear datasets para Chart.js
+                const colores = ['#4e73df', '#1cc88a', '#f6c23e', '#e74a3b', '#36b9cc'];
+                const datasets = tipos.map((tipo, i) => ({
+                  label: tipo,
+                  data: datosPorTipo[tipo],
+                  borderColor: colores[i % colores.length],
+                  fill: false
+                }));
+
                 const reservationTrendsChart = new Chart(ctx, {
                   type: 'line',
                   data: {
-                    labels: ['1 Ene', '2 Ene', '3 Ene', '4 Ene', '5 Ene', '6 Ene', '7 Ene'],
-                    datasets: [
-                      { label: 'Piscinas', data: [10, 15, 8, 12, 20, 18, 14], borderColor: '#4e73df', fill: false },
-                      { label: 'Gimnasios', data: [5, 8, 10, 6, 12, 9, 7], borderColor: '#1cc88a', fill: false },
-                      { label: 'Canchas de fútbol', data: [3, 4, 5, 2, 6, 5, 4], borderColor: '#f6c23e', fill: false },
-                      { label: 'Pista de atletismo', data: [2, 3, 1, 4, 3, 2, 3], borderColor: '#e74a3b', fill: false }
-                    ]
+                    labels: fechas,
+                    datasets: datasets
                   },
                   options: {
                     responsive: true,
@@ -316,22 +423,11 @@
                     }
                   }
                 });
-
-                // Lógica para actualizar el gráfico según el mes seleccionado
-                document.querySelectorAll('.dropdown-item').forEach(item => {
-                  item.addEventListener('click', function () {
-                    const selectedMonth = this.textContent;
-                    // Aquí deberías hacer una llamada a tu backend para obtener los datos actualizados
-                    console.log('Mes seleccionado:', selectedMonth);
-                    // Ejemplo: Actualizar datos del gráfico
-                    reservationTrendsChart.data.labels = ['1 ' + selectedMonth, '2 ' + selectedMonth, '3 ' + selectedMonth, '4 ' + selectedMonth, '5 ' + selectedMonth];
-                    reservationTrendsChart.data.datasets[0].data = [12, 18, 9, 15, 22]; // Piscinas
-                    reservationTrendsChart.data.datasets[1].data = [6, 9, 12, 7, 14]; // Gimnasios
-                    reservationTrendsChart.update();
-                  });
-                });
               });
+              /*]]>*/
             </script>
+
+
             <!--/ Shipment statistics -->
 
 

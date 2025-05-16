@@ -24,9 +24,8 @@ public class VecinoController {
     }
     @GetMapping("/home")
     public String principal(Model model) {
-        List<Usuarios> usuarios = usuariosRepository.findAll(); // Obtiene todos los usuarios
-        model.addAttribute("usuarios", usuarios); // Pasa la lista a la vista
-        return "vecino/principal"; // Usa la misma vista para mostrar todos los DNIs
+
+        return "registro/principal"; // Usa la misma vista para mostrar todos los DNIs
     }
 
     @GetMapping("/pago")

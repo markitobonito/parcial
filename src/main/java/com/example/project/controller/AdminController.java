@@ -9,17 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.text.DateFormatSymbols;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin")
@@ -83,34 +76,6 @@ public class AdminController {
         return "admin/mi_cuenta";
     }
 
-    @GetMapping("/agregar_servicios")
-    public String mostrarFormularioEspacio(Model model) {
-        model.addAttribute("espacio", new Espacio());
-        List<EstadoEspacio> estados = estadoEspacioRepository.findAll();
-        model.addAttribute("estados", estados);
-        return "admin/agregar_servicios";
-    }
-
-    @PostMapping("/agregar_servicios")
-    public String crearEspacio(
-            @ModelAttribute Espacio espacio,
-            @RequestParam("nombreLugar") String nombreLugar,
-            RedirectAttributes redirectAttributes) {
-
-        // Crear y guardar el nuevo Lugar
-        Lugar nuevoLugar = new Lugar();
-        nuevoLugar.setLugar(nombreLugar);
-        lugarRepository.save(nuevoLugar);
-
-        // Asociar el lugar al espacio
-        espacio.setIdLugar(nuevoLugar);
-
-        // Guardar el espacio
-        espacioRepository.save(espacio);
-
-        redirectAttributes.addFlashAttribute("mensaje", "Espacio creado exitosamente");
-        return "redirect:/admin/servicios_disponible";
-    }
 
 
     @GetMapping("/lista_coordinadores")
@@ -143,5 +108,118 @@ public class AdminController {
     }
 
 
+    @GetMapping("/agregar_servicios")
+    public String mostrarFormularioRegistroservicio(Model model) {
+        model.addAttribute("espacio", new Espacio()); // <- Esto es esencial
+        model.addAttribute("lugar", lugarRepository.findAll());
+        model.addAttribute("estados", estadoEspacioRepository.findAll());
+        model.addAttribute("tipos", Arrays.asList(
+                "Cancha de fútbol - Grass Sintético",
+                "Cancha de fútbol - Loza",
+                "Piscina",
+                "Gimnasio",
+                "Pista de atletismo"
+        ));
+        return "admin/agregar_servicios"; // este debe ser el nombre de tu HTML
+    }
+
+    @PostMapping("/agregar_servicios")
+    public String guardarEspacio(
+            @ModelAttribute Espacio espacio,
+            @RequestParam("foto1File") MultipartFile foto1File,
+            @RequestParam("foto2File") MultipartFile foto2File,
+            @RequestParam("foto3File") MultipartFile foto3File
+    ) {
+        try {
+            if (!foto1File.isEmpty()) {
+                espacio.setFoto1(foto1File.getBytes());
+            }
+            if (!foto2File.isEmpty()) {
+                espacio.setFoto2(foto2File.getBytes());
+            }
+            if (!foto3File.isEmpty()) {
+                espacio.setFoto3(foto3File.getBytes());
+            }
+
+            espacioRepository.save(espacio);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Puedes redirigir a una página de error si quieres
+            return "error";
+        }
+
+        return "redirect:/admin/espacios_deportivos"; // o como se llame tu lista de espacios
+    }
+
+    @GetMapping("/espacios_deportivos")
+    public String listarEspacios(Model model) {
+        List<EspacioDto> espacios = espacioRepository.findAllEspacioDtos();
+        model.addAttribute("espacios", espacios);
+        return "admin/espacios_deportivos";  // nombre de la plantilla Thymeleaf (lista-espacios.html)
+    }
+
+
+    @Autowired
+    private Cant_espacioRepository cantEspacioRepository;
+    @Autowired
+    private TendenciaReservaRepository tendenciaReservaRepository;
+
+    @GetMapping("/dashboard_servicios")
+    public String listarEspaciosPorTipo(Model model) {
+        List<ReservaDto> resumen = reservaRepository.obtenerResumenReservas();
+        model.addAttribute("resumen", resumen);
+        List<Object[]> resultados = cantEspacioRepository.contarPorTipoEspecifico();
+        List<TendenciaReservaDTO> tendencias = tendenciaReservaRepository.obtenerTendenciaReservas();
+        model.addAttribute("tendencias", tendencias);
+
+
+        // Inicializar contadores en cero
+        int cantidadPiscinas = 0;
+        int cantidadGimnasios = 0; // Si tienes gimnasios también, o pon cero si no
+        int cantidadCanchaLoza = 0;
+        int cantidadCanchaGrass = 0;
+        int cantidadPistaAtletismo = 0;
+
+        for (Object[] fila : resultados) {
+            String tipo = (String) fila[0];
+            Long cantidad = (Long) fila[1];
+
+            switch (tipo) {
+                case "Piscina":
+                    cantidadPiscinas = cantidad.intValue();
+                    break;
+                case "Gimnasio":
+                    cantidadGimnasios = cantidad.intValue();
+                    break;
+                case "Cancha de fútbol-Loza":
+                    cantidadCanchaLoza = cantidad.intValue();
+                    break;
+                case "Cancha de fútbol-Grass Sintético":
+                case "Cancha de fútbol - Grass Sintético":
+                    cantidadCanchaGrass = cantidad.intValue();
+                    break;
+                case "Pista de atletismo":
+                    cantidadPistaAtletismo = cantidad.intValue();
+                    break;
+            }
+        }
+
+        model.addAttribute("cantidadPiscinas", cantidadPiscinas);
+        model.addAttribute("cantidadGimnasios", cantidadGimnasios);
+        model.addAttribute("cantidadCanchaLoza", cantidadCanchaLoza);
+        model.addAttribute("cantidadCanchaGrass", cantidadCanchaGrass);
+        model.addAttribute("cantidadPistaAtletismo", cantidadPistaAtletismo);
+
+        return "admin/dashboard_servicios";
+    }
+
+
+    @GetMapping("/detalles/{id}")
+    public String verDetalleEspacio(@PathVariable("id") int id, Model model) {
+        Espacio espacio = espacioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ID de espacio no válido: " + id));
+        model.addAttribute("espacio", espacio);
+        return "admin/detalles";
+    }
 
 }

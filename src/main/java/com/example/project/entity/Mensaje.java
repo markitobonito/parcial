@@ -11,7 +11,7 @@ public class Mensaje {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idMensaje", nullable = false)
-    private int idMensaje;
+    private Integer idMensaje;
 
     @Column(name="horaEnvio")
     private Timestamp horaEnvio;
