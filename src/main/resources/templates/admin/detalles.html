@@ -1,28 +1,29 @@
 <!DOCTYPE html>
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="es"
+      class="light-style layout-navbar-fixed layout-menu-fixed layout-compact"
+      dir="ltr"
+      data-theme="theme-semi-dark"
+      data-assets-path="/"
+      data-template="vertical-menu-template-semi-dark">
 
-<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org" lang="es" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr" data-theme="theme-semi-dark" data-assets-path="/" data-template="vertical-menu-template-semi-dark">
-
-
-<!-- Mirrored from demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template-semi-dark/tables-datatables-basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Apr 2024 23:16:07 GMT -->
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
-    <title>Detalles</title>
-
-
-    <meta name="description" content="Most Powerful &amp; Comprehensive Bootstrap 5 Admin Dashboard built for developers!" />
+    <title>Detalles del Espacio</title>
+    <meta name="description" content="Most Powerful & Comprehensive Bootstrap 5 Admin Dashboard built for developers!" />
     <meta name="keywords" content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
-    <!-- Canonical SEO -->
     <link rel="canonical" href="https://themeselection.com/item/sneat-dashboard-pro-bootstrap/">
 
-
-    <!-- ? PROD Only: Google Tag Manager (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        '../../../../www.googletagmanager.com/gtm5445.html?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-5DDHKGP');</script>
+    <!-- Google Tag Manager -->
+    <script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-5DDHKGP');
+    </script>
     <!-- End Google Tag Manager -->
 
     <!-- Favicon -->
@@ -31,7 +32,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 
     <!-- Icons -->
     <link rel="stylesheet" href="/vendor/fonts/boxicons.css" />
@@ -51,40 +52,35 @@
     <link rel="stylesheet" href="/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css">
     <link rel="stylesheet" href="/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css">
     <link rel="stylesheet" href="/vendor/libs/flatpickr/flatpickr.css" />
-    <!-- Row Group CSS -->
     <link rel="stylesheet" href="/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css">
-    <!-- Form Validation -->
     <link rel="stylesheet" href="/vendor/libs/%40form-validation/form-validation.css" />
-
-    <!-- Page CSS -->
-
 
     <!-- Helpers -->
     <script src="/vendor/js/helpers.js"></script>
     <script src="/js/config.js"></script>
-
 </head>
 
 <body>
-
-
-<!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0" style="display: none; visibility: hidden"></iframe></noscript>
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0" style="display: none; visibility: hidden"></iframe>
+</noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 <!-- Layout wrapper -->
-<div class="layout-wrapper layout-content-navbar  ">
+<div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
-
+        <!-- Sidebar -->
         <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
-        <!-- Layout container -->
+
+        <!-- Layout page -->
         <div class="layout-page">
+            <!-- Navbar -->
             <div th:replace="~{admin/fragments/navbar :: navbar}"></div>
+
             <!-- Content wrapper -->
             <div class="content-wrapper">
-
                 <!-- Content -->
-
                 <div class="container-xxl container-p-y">
                     <div class="card">
                         <div class="card-body row g-3">
@@ -102,32 +98,41 @@
                                 <!-- /Título espacio -->
 
                                 <!-- Foto del espacio -->
-                                <div class="mb-4 text-center" th:if="${espacio.foto1 != null}">
-                                    <img class="img-fluid rounded"
-                                         th:src="'data:image/png;base64,' + ${T(org.apache.tomcat.util.codec.binary.Base64).encodeBase64String(espacio.foto1)}"
-                                         alt="Foto del espacio 1"
-                                         style="max-height: 300px; object-fit: cover;" />
-                                </div>
-                                <p class="text-muted text-center" th:if="${espacio.foto1 == null}">No se ha registrado una imagen 1.</p>
 
-                                <div class="mb-4 text-center" th:if="${espacio.foto2 != null}">
-                                    <img class="img-fluid rounded"
-                                         th:src="'data:image/png;base64,' + ${T(org.apache.tomcat.util.codec.binary.Base64).encodeBase64String(espacio.foto2)}"
-                                         alt="Foto del espacio 2"
-                                         style="max-height: 300px; object-fit: cover;" />
+                                <div class="mb-4 text-center" th:if="${espacio.foto1 != null or espacio.foto2 != null or espacio.foto3 != null}">
+                                    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active" th:if="${espacio.foto1 != null}">
+                                                <img class="d-block w-100 rounded"
+                                                     th:src="@{/admin/imagen/{id}/{numero}(id=${espacio.idEspacio}, numero=1)}"
+                                                     alt="Foto 1"
+                                                     style="max-height: 500px; object-fit: cover;" />
+                                            </div>
+                                            <div class="carousel-item" th:if="${espacio.foto2 != null}">
+                                                <img class="d-block w-100 rounded"
+                                                     th:src="@{/admin/imagen/{id}/{numero}(id=${espacio.idEspacio}, numero=2)}"
+                                                     alt="Foto 2"
+                                                     style="max-height: 500px; object-fit: cover;" />
+                                            </div>
+                                            <div class="carousel-item" th:if="${espacio.foto3 != null}">
+                                                <img class="d-block w-100 rounded"
+                                                     th:src="@{/admin/imagen/{id}/{numero}(id=${espacio.idEspacio}, numero=3)}"
+                                                     alt="Foto 3"
+                                                     style="max-height: 500px; object-fit: cover;" />
+                                            </div>
+                                        </div>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
                                 </div>
-                                <p class="text-muted text-center" th:if="${espacio.foto2 == null}">No se ha registrado una imagen 2.</p>
-
-                                <div class="mb-4 text-center" th:if="${espacio.foto3 != null}">
-                                    <img class="img-fluid rounded"
-                                         th:src="'data:image/png;base64,' + ${T(org.apache.tomcat.util.codec.binary.Base64).encodeBase64String(espacio.foto3)}"
-                                         alt="Foto del espacio 3"
-                                         style="max-height: 300px; object-fit: cover;" />
-                                </div>
-                                <p class="text-muted text-center" th:if="${espacio.foto3 == null}">No se ha registrado una imagen 3.</p>
 
                                 <!-- /Foto del espacio -->
-
                             </div>
 
                             <div class="col-lg-5">
@@ -139,81 +144,52 @@
 
                                 <div class="row pt-1" style="text-align: center;">
                                     <div class="col">
-                                        <a th:href="@{/espacios_deportivos/}" class="btn btn-primary"
+                                        <a th:href="@{/admin/espacios_deportivos}" class="btn btn-primary"
                                            style="font-size: 1rem; border-radius: 15px; margin: 0 20px;">Volver</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="content-backdrop fade"></div>
                 </div>
-
-                <!-- Content -->
-
-
-                <!-- Content wrapper -->
+                <div class="content-backdrop fade"></div>
+                <!-- /Content -->
             </div>
-
+            <!-- /Content wrapper -->
         </div>
-            <!-- / Layout page -->
-        </div>
-
-
-
-        <!-- Overlay -->
-        <div class="layout-overlay layout-menu-toggle"></div>
-
-
-        <!-- Drag Target Area To SlideIn Menu On Small Screens -->
-        <div class="drag-target"></div>
-
+        <!-- /Layout page -->
     </div>
-    <!-- / Layout wrapper -->
 
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
 
-
-
-
-
-
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-
-    <script src="/vendor/libs/jquery/jquery.js"></script>
-    <script src="/vendor/libs/popper/popper.js"></script>
-    <script src="/vendor/js/bootstrap.js"></script>
-    <script src="/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="/vendor/libs/hammer/hammer.js"></script>
-    <script src="/vendor/libs/i18n/i18n.js"></script>
-    <script src="/vendor/libs/typeahead-js/typeahead.js"></script>
-    <script src="/vendor/js/menu.js"></script>
-
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
-    <script src="/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
-    <!-- Flat Picker -->
-    <script src="/vendor/libs/moment/moment.js"></script>
-    <script src="/vendor/libs/flatpickr/flatpickr.js"></script>
-    <!-- Form Validation -->
-    <script src="/vendor/libs/%40form-validation/popular.js"></script>
-    <script src="/vendor/libs/%40form-validation/bootstrap5.js"></script>
-    <script src="/vendor/libs/%40form-validation/auto-focus.js"></script>
-
-    <!-- Main JS -->
-    <script src="/js/main.js"></script>
-
-
-    <!-- Page JS -->
-    <script src="/js/tables-datatables-basic.js"></script>
+    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+    <div class="drag-target"></div>
 </div>
+<!-- /Layout wrapper -->
 
+<!-- Core JS -->
+<script src="/vendor/libs/jquery/jquery.js"></script>
+<script src="/vendor/libs/popper/popper.js"></script>
+<script src="/vendor/js/bootstrap.js"></script>
+<script src="/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="/vendor/libs/hammer/hammer.js"></script>
+<script src="/vendor/libs/i18n/i18n.js"></script>
+<script src="/vendor/libs/typeahead-js/typeahead.js"></script>
+<script src="/vendor/js/menu.js"></script>
+
+<!-- Vendors JS -->
+<script src="/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+<script src="/vendor/libs/moment/moment.js"></script>
+<script src="/vendor/libs/flatpickr/flatpickr.js"></script>
+<script src="/vendor/libs/%40form-validation/popular.js"></script>
+<script src="/vendor/libs/%40form-validation/bootstrap5.js"></script>
+<script src="/vendor/libs/%40form-validation/auto-focus.js"></script>
+
+<!-- Main JS -->
+<script src="/js/main.js"></script>
+
+<!-- Page JS -->
+<script src="/js/tables-datatables-basic.js"></script>
 </body>
-
-
-<!-- Mirrored from demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template-semi-dark/tables-datatables-basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Apr 2024 23:16:07 GMT -->
 </html>
-
-<!-- beautify ignore:end -->
-

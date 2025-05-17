@@ -6,12 +6,19 @@ import com.example.project.repository.RolRepository;
 import com.example.project.repository.UsuariosRepository;
 import com.example.project.repository.admin.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
 import java.util.*;
 
 @Controller
@@ -220,6 +227,45 @@ public class AdminController {
                 .orElseThrow(() -> new IllegalArgumentException("ID de espacio no válido: " + id));
         model.addAttribute("espacio", espacio);
         return "admin/detalles";
+    }
+
+    @GetMapping("/imagen/{id}/{numero}")
+    public ResponseEntity<byte[]> obtenerImagen(@PathVariable("id") int id, @PathVariable("numero") int numero) {
+        Espacio espacio = espacioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ID de espacio no válido: " + id));
+
+        byte[] imagen;
+        switch (numero) {
+            case 1:
+                imagen = espacio.getFoto1();
+                break;
+            case 2:
+                imagen = espacio.getFoto2();
+                break;
+            case 3:
+                imagen = espacio.getFoto3();
+                break;
+            default:
+                throw new IllegalArgumentException("Número de imagen no válido: " + numero);
+        }
+
+        if (imagen == null || imagen.length == 0) {
+            return ResponseEntity.notFound().build();
+        }
+
+        String contentType;
+        try (InputStream is = new ByteArrayInputStream(imagen)) {
+            contentType = URLConnection.guessContentTypeFromStream(is);
+            if (contentType == null) {
+                contentType = "image/jpeg"; // Default to JPEG
+            }
+        } catch (IOException e) {
+            contentType = "image/jpeg"; // Fallback in case of error
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType(contentType));
+        return new ResponseEntity<>(imagen, headers, HttpStatus.OK);
     }
 
 }
