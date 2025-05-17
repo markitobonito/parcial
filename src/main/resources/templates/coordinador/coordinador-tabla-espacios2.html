@@ -7,6 +7,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <title>Espacios Deportivos</title>
     <!-- Favicon -->
     <link rel="icon" type="image/x-xicon" th:href="@{/img/icono.ico}">
@@ -92,14 +95,16 @@
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
+                                                    <th></th>
                                                     <th>Nombre</th>
                                                     <th>Estado</th>
                                                     <th>Ubicación</th>
                                                     <th>Opciones</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="table-border-bottom-0">
+                                            <tbody class="table-border-bottom-0" id="espaciosTableBody">
                                                 <tr th:each="espacio : ${espacios}">
+                                                    <td></td>
                                                     <td><span class="fw-medium" th:text="${espacio.nombre}"></span></td>
                                                     <td>
                                                         <span class="badge me-1"
@@ -156,6 +161,7 @@
                                                 <h4 class="onboarding-title text-body" th:text="'Espacio Deportivo: ' + ${espacio.nombre}"></h4>
                                                 <div class="onboarding-info">Agrega desde aquí alguna observación que tengas sobre este Espacio Deportivo.</div>
                                                 <form th:action="@{/coordinador/addObservacion}" method="post">
+                                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="mb-3">
@@ -200,11 +206,30 @@
     <script th:src="@{/js/asistencia.js}"></script>
 
     <script>
+
         function cambiarEstado(idEspacio, nuevoEstado) {
-            $.post('/coordinador/updateEstado', { idEspacio: idEspacio, nuevoEstado: nuevoEstado }, function() {
-                location.reload();
+            var csrfToken = $('meta[name="_csrf"]').attr('content');
+            var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+            console.log("Intentando cambiar estado de espacio ID:", idEspacio, "a:", nuevoEstado);
+
+            $.ajax({
+                url: '/coordinador/updateEstado',
+                type: 'POST',
+                data: { idEspacio: idEspacio, nuevoEstado: nuevoEstado },
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                },
+                success: function(data) {
+                    console.log("Respuesta OK:", data);
+                    location.reload();
+                },
+                error: function(xhr) {
+                    console.error("Error al actualizar estado:", xhr.status, xhr.responseText);
+                    alert("Error al actualizar estado. Ver consola para más detalles.");
+                }
             });
         }
+
 
         function mostrarPopup(idEspacio, nombre) {
             $('#observacionModal').modal('show');
