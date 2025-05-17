@@ -58,7 +58,7 @@
 
 
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0" style="display: none; visibility: hidden"></iframe></noscript>
-<div th:replace="~{vecino/navbar :: navbarFragment}"></div>
+<div th:replace="~{registro/navbar :: navbarFragment}"></div>
 <div class="layout-wrapper layout-content-navbar" >
   <div class="layout-container">
     <div class="layout-page">
@@ -143,7 +143,7 @@
 
         <div class="container-xxl container-p-y">
 
-          <div class="card-header d-flex flex-wrap justify-content-between gap-3">
+          <!--div class="card-header d-flex flex-wrap justify-content-between gap-3">
             <div class="col-12 d-flex card">
               <div class="card-body p-2">
                 <div class="row align-items-center justify-content-center">
@@ -156,7 +156,6 @@
                       <option value="losaDeportiva">Losas Deportivas</option>
                     </select>
                   </div>
-
                   <div class="col-lg-2 col-md-6 col-sm-12 mb-1">
                     <label for="select2Basic2" class="form-label mb-1" style="font-size: 0.75rem;">Capacidad</label>
                     <select id="select2Basic2" class="select2 form-select form-select-sm" data-allow-clear="true" style="font-size: 0.75rem;">
@@ -165,7 +164,6 @@
                       <option value="capacidad3">50+ personas</option>
                     </select>
                   </div>
-
                   <div class="col-lg-2 col-md-6 col-sm-12 mb-1">
                     <label for="select2Basic3" class="form-label mb-1" style="font-size: 0.75rem;">Deporte</label> <select id="select2Basic3" class="select2 form-select form-select-sm" data-allow-clear="true" style="font-size: 0.75rem;"> <option value="futbol">Fútbol</option>
                     <option value="voley">Voley</option>
@@ -173,77 +171,42 @@
                     <option value="basquet">Básquet</option>
                   </select>
                   </div>
-
                   <div class="col-lg-3 col-md-6 col-sm-12 mb-1">
                     <label for="dateRange" class="form-label mb-1" style="font-size: 0.75rem;">Disponibilidad</label>
                     <input type="text" id="dateRange" class="form-control form-control-sm" placeholder="Seleccionar rango de fechas" style="font-size: 0.75rem;">
                   </div>
-
                   <div class="col-lg-2 d-flex justify-content-center">
                     <button type="submit" class="btn btn-facebook btn-sm" style="width: 50%;">Aplicar filtro</button>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </div-->
 
 
           <div class="card col-12">
-
             <div class="card-body">
               <div class="container-fluid">
                 <div class="row gx-1 gy-4 justify-content-between">
 
-                  <div class="col-lg-4 d-flex justify-content-center">
+                  <div class="col-lg-4 d-flex justify-content-center" th:each="espacio:${espacios}">
                     <div class="card d-flex flex-column"  style="border: 1px solid #ddd; box-shadow: none; width: 100%;">
-
                       <div class="card-body p-2 d-flex flex-column">
-
-                        <a class="h4" style="color: black;" data-bs-toggle="modal" href="#">Espacio Deportivo 1</a>
-
+                        <a class="h4" style="color: black;" data-bs-toggle="modal" href="#" th:text="${espacio.nombre}"></a>
                         <div class="d-flex justify-content-between align-items-center m-0">
-                          <span class="badge bg-body" style="color: gray;">Grass sintético</span>
+                          <span class="badge bg-body" style="color: gray;" th:text="${espacio.tipo}"></span>
                         </div>
                         <div class="rounded-1 text-center flex-grow-2 mb-3 mt-3">
                           <a data-bs-toggle="modal" href="#evento1">
-                            <img class="img-fluid" src="https://i.ibb.co/pjDVdsd7/vintage-landscapes-with-buildings.jpg" alt="Imagen de espacio 1" style="height: 200px; object-fit: cover; border-radius: 5px;"/>
+                            <img class="img-fluid" th:src="@{|/admin/imagen/${espacio.idEspacio}/1|}" alt="Imagen de espacio" style="height: 200px; object-fit: cover; border-radius: 5px;"/>
                           </a>
                         </div>
-                        <p class="text-body">Cancha de grass sintético para fútbol.</p>
+                        <p class="text-body" th:text="${espacio.idLugar.lugar}"></p>
                         <div class="d-flex gap-3 text-center mt-auto mb-3 justify-content-center">
-                          <a class="col-4 btn btn-facebook d-flex" style="border-radius: 15px;" href="vecino-ver-detalles-espacio.html">
+                          <a class="col-4 btn btn-facebook d-flex" style="border-radius: 15px;" th:href="@{|/vecino/detalles?id=${espacio.idEspacio}|}">
                             <span>Detalles</span>
                           </a>
-                          <a href="vecino-disponibilidad-espacio.html" style="border-radius: 15px;" class="col-4 btn btn-primary d-flex btn-inscripcion" data-event-id="1" user-type="usuario" post-type="publi">
-                            <span>Reservar</span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 d-flex justify-content-center">
-                    <div class="card d-flex flex-column" style="border: 1px solid #ddd; box-shadow: none; width: 100%;">
-
-                      <div class="card-body p-2 d-flex flex-column">
-
-                        <a class="h4" style="color: black;" data-bs-toggle="modal" href="#evento2">Espacio Deportivo 2</a>
-
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                          <span class="badge bg-body" style="color: gray;">Piscina</span>
-                        </div>
-
-                        <div class="rounded-1 text-center flex-grow-2 mb-3 mt-3">
-                          <a data-bs-toggle="modal" href="#evento2">
-                            <img class="img-fluid" src="https://i.ibb.co/842tLPz4/piscina1.jpg" alt="Imagen de espacio 2" style="height: 200px; object-fit: cover; border-radius: 5px;"/>
-                          </a>
-                        </div>
-
-                        <p class="text-body">Piscina pública.</p>
-                        <div class="d-flex gap-3 text-center mt-auto mb-3 justify-content-center">
-                          <a class="col-4 btn btn-facebook d-flex" style="border-radius: 15px;" href="vecino-ver-detalles-espacio.html">
-                            <span>Detalles</span>
-                          </a>
-                          <a href="vecino-disponibilidad-espacio.html" style="border-radius: 15px;" class="col-4 btn btn-primary d-flex btn-inscripcion" data-event-id="2" user-type="usuario" post-type="publi">
+                          <a th:href="@{|/vecino/disponibilidad?id=${espacio.idEspacio}|}" style="border-radius: 15px;" class="col-4 btn btn-primary d-flex btn-inscripcion" data-event-id="1" user-type="usuario" post-type="publi">
                             <span>Reservar</span>
                           </a>
                         </div>
@@ -251,37 +214,11 @@
                     </div>
                   </div>
 
-                  <div class="col-lg-4 d-flex justify-content-center">
-                    <div class="card d-flex flex-column" style="border: 1px solid #ddd; box-shadow: none; width: 100%;">
-
-                      <div class="card-body p-2 d-flex flex-column">
-
-                        <a class="h4" style="color: black;" data-bs-toggle="modal" href="#evento3">Espacio Deportivo 3</a>
-
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                          <span class="badge bg-body" style="color: gray;">Pista de atletismo</span>
-                        </div>
-                        <div class="rounded-1 text-center flex-grow-2 mb-3 mt-3">
-                          <a data-bs-toggle="modal" href="#evento3">
-                            <img class="img-fluid" src="https://i.ibb.co/zT3xL8CW/pista-atletismo.jpg" alt="Imagen de espacio 3" style="height: 200px; object-fit: cover; border-radius: 5px;"/>
-                          </a>
-                        </div>
-                        <p class="text-body">Pista de atletismo.</p>
-                        <div class="d-flex gap-3 text-center mt-auto mb-3 justify-content-center">
-                          <a class="col-4 btn btn-facebook d-flex" style="border-radius: 15px;" href="vecino-ver-detalles-espacio.html">
-                            <span>Detalles</span>
-                          </a>
-                          <a href="vecino-disponibilidad-espacio.html" style="border-radius: 15px;" class="col-4 btn btn-primary d-flex btn-inscripcion" data-event-id="3" user-type="usuario" post-type="publi">
-                            <span>Reservar</span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
-            <div class="card-footer d-flex justify-content-center">
+
+            <!--div class="card-footer d-flex justify-content-center">
               <ul class="pagination m-0">
                 <li class="page-item disabled">
                   <span class="page-link">Anterior</span>
@@ -299,7 +236,8 @@
                   <a class="page-link" href="#">Siguiente</a>
                 </li>
               </ul>
-            </div>
+            </div-->
+
             <div class="content-backdrop fade"></div>
           </div>
         </div>
