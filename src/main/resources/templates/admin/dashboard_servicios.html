@@ -1,23 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org" lang="es" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr" data-theme="theme-semi-dark" data-assets-path="/" data-template="vertical-menu-template-semi-dark">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="es"
+      class="light-style layout-navbar-fixed layout-menu-fixed layout-compact"
+      dir="ltr"
+      data-theme="theme-semi-dark"
+      data-assets-path="/"
+      data-template="vertical-menu-template-semi-dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-  <title>dashboard_servicios</title>
+  <title>Dashboard de Servicios</title>
   <meta name="description" content="Most Powerful & Comprehensive Bootstrap 5 Admin Dashboard built for developers!" />
   <meta name="keywords" content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5" />
   <!-- Canonical SEO -->
   <link rel="canonical" href="https://themeselection.com/item/sneat-dashboard-pro-bootstrap/" />
-  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 
   <!-- Google Tag Manager -->
   <script>
     (function(w,d,s,l,i){
-      w[l]=w[l]||[];
-      w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
+      w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
       var f=d.getElementsByTagName(s)[0], j=d.createElement(s), dl=l!='dataLayer'?'&l='+l:'';
-      j.async=true;
-      j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+      j.async=true; j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
       f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-5DDHKGP');
   </script>
@@ -51,6 +55,9 @@
   <!-- Page CSS -->
   <link rel="stylesheet" th:href="@{/vendor/css/pages/page-profile.css}" />
 
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <!-- Helpers -->
   <script th:src="@{/vendor/js/helpers.js}"></script>
   <script th:src="@{/js/config.js}"></script>
@@ -62,31 +69,26 @@
 <!-- End Google Tag Manager (noscript) -->
 
 <!-- Layout wrapper -->
-<div class="layout-wrapper layout-content-navbar  ">
+<div class="layout-wrapper layout-content-navbar">
   <div class="layout-container">
-
+    <!-- Sidebar -->
     <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
 
-    <!-- Layout container -->
+    <!-- Layout page -->
     <div class="layout-page">
-
+      <!-- Navbar -->
       <div th:replace="~{admin/fragments/navbar :: navbar}"></div>
 
       <!-- Content wrapper -->
       <div class="content-wrapper">
-
         <!-- Content -->
-
         <div class="container-xxl flex-grow-1 container-p-y">
-
-
           <h4 class="py-3 mb-4">
             <span class="text-muted fw-light">Servicios Deportivos /</span> Dashboard
           </h4>
 
           <!-- Card Border Shadow -->
           <div class="row">
-            <!-- Card Border Shadow -->
             <div class="col-sm-6 col-lg-3 mb-4">
               <div class="card card-border-shadow-primary h-100">
                 <div class="card-body">
@@ -94,13 +96,12 @@
                     <div class="avatar me-2">
                       <span class="avatar-initial rounded bg-label-primary"><i class="bx bx-water"></i></span>
                     </div>
-                    <span th:text="${cantidadPiscinas}">0</span>
+                    <h4 class="ms-1 mb-0" th:text="${cantidadesPorTipo['Piscina']}">0</h4>
                   </div>
                   <p class="mb-1">Piscinas</p>
                 </div>
               </div>
             </div>
-
             <div class="col-sm-6 col-lg-3 mb-4">
               <div class="card card-border-shadow-warning h-100">
                 <div class="card-body">
@@ -108,13 +109,12 @@
                     <div class="avatar me-2">
                       <span class="avatar-initial rounded bg-label-warning"><i class='bx bx-dumbbell'></i></span>
                     </div>
-                    <h4 class="ms-1 mb-0" th:text="${cantidadGimnasios}">0</h4>
+                    <h4 class="ms-1 mb-0" th:text="${cantidadesPorTipo['Gimnasio']}">0</h4>
                   </div>
                   <p class="mb-1">Gimnasios</p>
                 </div>
               </div>
             </div>
-
             <div class="col-sm-6 col-lg-3 mb-4">
               <div class="card card-border-shadow-danger h-100">
                 <div class="card-body">
@@ -122,21 +122,19 @@
                     <div class="avatar me-2">
                       <span class="avatar-initial rounded bg-label-danger"><i class='bx bx-football'></i></span>
                     </div>
-                    <h4 class="ms-1 mb-0" th:text="${cantidadCanchaLoza}">0</h4>
+                    <h4 class="ms-1 mb-0" th:text="${cantidadesPorTipo['Cancha de fútbol-Loza']}">0</h4>
                   </div>
-                  <p class="mb-1">Cancha de fútbol (loza)</p>
-
+                  <p class="mb-1">Cancha de fútbol (Loza)</p>
                   <div class="d-flex align-items-center mb-2 pb-1">
                     <div class="avatar me-2">
-                      <span class="avatar-initial rounded bg-label-info"><i class="fas fa-archway"></i></span>
+                      <span class="avatar-initial rounded bg-label-info"><i class='bx bx-football'></i></span>
                     </div>
-                    <h4 class="ms-1 mb-0" th:text="${cantidadCanchaGrass}">0</h4>
+                    <h4 class="ms-1 mb-0" th:text="${cantidadesPorTipo['Cancha de fútbol-Grass Sintético']}">0</h4>
                   </div>
-                  <p class="mb-1">Cancha de fútbol (Grass sintético)</p>
+                  <p class="mb-1">Cancha de fútbol (Grass Sintético)</p>
                 </div>
               </div>
             </div>
-
             <div class="col-sm-6 col-lg-3 mb-4">
               <div class="card card-border-shadow-info h-100">
                 <div class="card-body">
@@ -144,7 +142,7 @@
                     <div class="avatar me-2">
                       <span class="avatar-initial rounded bg-label-info"><i class="bx bx-run"></i></span>
                     </div>
-                    <h4 class="ms-1 mb-0" th:text="${cantidadPistaAtletismo}">0</h4>
+                    <h4 class="ms-1 mb-0" th:text="${cantidadesPorTipo['Pista de atletismo']}">0</h4>
                   </div>
                   <p class="mb-1">Pista de atletismo</p>
                 </div>
@@ -152,158 +150,104 @@
             </div>
           </div>
           <!--/ Card Border Shadow -->
+
+          <!-- Vehicles overview -->
           <div class="row">
-            <!-- Vehicles overview -->
             <div class="col-xxl-6 mb-4 order-5 order-xxl-0">
               <div class="card h-100">
                 <div class="card-header">
                   <div class="card-title mb-0">
-                    <h5 class="m-0">Reservados</h5>
+                    <h5 class="m-0">Reservas</h5>
                   </div>
                 </div>
                 <div class="card-body">
                   <div class="d-none d-lg-flex vehicles-progress-labels mb-3">
                     <div class="vehicles-progress-label on-the-way-text"
-                         th:style="'width: ' + ${resumen[2].porcentajeUso} + '%'">
-                      Piscinas
-                    </div>
+                         th:style="'width: ' + (${resumenMap['Piscina'] != null} ? ${resumenMap['Piscina'].porcentajeUso} : 0) + '%'"
+                         th:text="'Piscinas (' + (${resumenMap['Piscina'] != null} ? ${#numbers.formatDecimal(resumenMap['Piscina'].porcentajeUso, 1, 2)} : 0) + '%)'"></div>
                     <div class="vehicles-progress-label unloading-text"
-                         th:style="'width: ' + ${resumen[4].porcentajeUso} + '%'">
-                      Gimnasios
-                    </div>
+                         th:style="'width: ' + (${resumenMap['Gimnasio'] != null} ? ${resumenMap['Gimnasio'].porcentajeUso} : 0) + '%'"
+                         th:text="'Gimnasios (' + (${resumenMap['Gimnasio'] != null} ? ${#numbers.formatDecimal(resumenMap['Gimnasio'].porcentajeUso, 1, 2)} : 0) + '%)'"></div>
                     <div class="vehicles-progress-label loading-text"
-                         th:style="'width: ' + ${resumen[0].porcentajeUso} + '%'">
-                      Cancha de Grass
-                    </div>
+                         th:style="'width: ' + (${resumenMap['Cancha de fútbol-Grass Sintético'] != null} ? ${resumenMap['Cancha de fútbol-Grass Sintético'].porcentajeUso} : 0) + '%'"
+                         th:text="'Cancha de Grass (' + (${resumenMap['Cancha de fútbol-Grass Sintético'] != null} ? ${#numbers.formatDecimal(resumenMap['Cancha de fútbol-Grass Sintético'].porcentajeUso, 1, 2)} : 0) + '%)'"></div>
                     <div class="vehicles-progress-label loading-text"
-                         th:style="'width: ' + ${resumen[1].porcentajeUso} + '%'">
-                      Cancha de Loza
-                    </div>
+                         th:style="'width: ' + (${resumenMap['Cancha de fútbol-Loza'] != null} ? ${resumenMap['Cancha de fútbol-Loza'].porcentajeUso} : 0) + '%'"
+                         th:text="'Cancha de Loza (' + (${resumenMap['Cancha de fútbol-Loza'] != null} ? ${#numbers.formatDecimal(resumenMap['Cancha de fútbol-Loza'].porcentajeUso, 1, 2)} : 0) + '%)'"></div>
                     <div class="vehicles-progress-label waiting-text"
-                         th:style="'width: ' + ${resumen[3].porcentajeUso} + '%'">
-                      Pista de atletismo
-                    </div>
+                         th:style="'width: ' + (${resumenMap['Pista de atletismo'] != null} ? ${resumenMap['Pista de atletismo'].porcentajeUso} : 0) + '%'"
+                         th:text="'Pista de Atletismo (' + (${resumenMap['Pista de atletismo'] != null} ? ${#numbers.formatDecimal(resumenMap['Pista de atletismo'].porcentajeUso, 1, 2)} : 0) + '%)'"></div>
                   </div>
 
                   <div class="vehicles-overview-progress progress rounded-2 mb-3" style="height: 46px;">
                     <div class="progress-bar fs-big fw-medium text-start bg-lighter text-body px-1 px-lg-3 rounded-start shadow-none"
                          role="progressbar"
-                         th:style="'width: ' + ${resumen[2].porcentajeUso} + '%'"
-                         th:aria-valuenow="${resumen[2].porcentajeUso}"
+                         th:style="'width: ' + (${resumenMap['Piscina'] != null} ? ${resumenMap['Piscina'].porcentajeUso}) + '%'"
+                         th:aria-valuenow="${resumenMap['Piscina'] != null} ? ${resumenMap['Piscina'].porcentajeUso}"
                          aria-valuemin="0" aria-valuemax="100"
-                         th:text="${resumen[2].porcentajeUso} + '%'">
-                    </div>
+                         th:text="(${resumenMap['Piscina'] != null} ? ${#numbers.formatDecimal(resumenMap['Piscina'].porcentajeUso, 1, 2)} : 0) + '%'"></div>
                     <div class="progress-bar fs-big fw-medium text-start bg-primary px-1 px-lg-3 shadow-none"
                          role="progressbar"
-                         th:style="'width: ' + ${resumen[4].porcentajeUso} + '%'"
-                         th:aria-valuenow="${resumen[4].porcentajeUso}"
+                         th:style="'width: ' + (${resumenMap['Gimnasio'] != null} ? ${resumenMap['Gimnasio'].porcentajeUso} : 0) + '%'"
+                         th:aria-valuenow="${resumenMap['Gimnasio'] != null} ? ${resumenMap['Gimnasio'].porcentajeUso} : 0"
                          aria-valuemin="0" aria-valuemax="100"
-                         th:text="${resumen[4].porcentajeUso} + '%'">
-                    </div>
+                         th:text="(${resumenMap['Gimnasio'] != null} ? ${#numbers.formatDecimal(resumenMap['Gimnasio'].porcentajeUso, 1, 2)} : 0) + '%'"></div>
                     <div class="progress-bar fs-big fw-medium text-start text-bg-info px-1 px-lg-3 shadow-none"
                          role="progressbar"
-                         th:style="'width: ' + ${resumen[0].porcentajeUso} + '%'"
-                         th:aria-valuenow="${resumen[0].porcentajeUso}"
+                         th:style="'width: ' + (${resumenMap['Cancha de fútbol-Grass Sintético'] != null} ? ${resumenMap['Cancha de fútbol-Grass Sintético'].porcentajeUso} : 0) + '%'"
+                         th:aria-valuenow="${resumenMap['Cancha de fútbol-Grass Sintético'] != null} ? ${resumenMap['Cancha de fútbol-Grass Sintético'].porcentajeUso} : 0"
                          aria-valuemin="0" aria-valuemax="100"
-                         th:text="${resumen[0].porcentajeUso} + '%'">
-                    </div>
+                         th:text="(${resumenMap['Cancha de fútbol-Grass Sintético'] != null} ? ${#numbers.formatDecimal(resumenMap['Cancha de fútbol-Grass Sintético'].porcentajeUso, 1, 2)} : 0) + '%'"></div>
                     <div class="progress-bar fs-big fw-medium text-start text-bg-warning px-1 px-lg-3 shadow-none"
                          role="progressbar"
-                         th:style="'width: ' + ${resumen[1].porcentajeUso} + '%'"
-                         th:aria-valuenow="${resumen[1].porcentajeUso}"
+                         th:style="'width: ' + (${resumenMap['Cancha de fútbol-Loza'] != null} ? ${resumenMap['Cancha de fútbol-Loza'].porcentajeUso} : 0) + '%'"
+                         th:aria-valuenow="${resumenMap['Cancha de fútbol-Loza'] != null} ? ${resumenMap['Cancha de fútbol-Loza'].porcentajeUso} : 0"
                          aria-valuemin="0" aria-valuemax="100"
-                         th:text="${resumen[1].porcentajeUso} + '%'">
-                    </div>
+                         th:text="(${resumenMap['Cancha de fútbol-Loza'] != null} ? ${#numbers.formatDecimal(resumenMap['Cancha de fútbol-Loza'].porcentajeUso, 1, 2)} : 0) + '%'"></div>
                     <div class="progress-bar fs-big fw-medium text-start bg-gray-900 px-1 px-lg-3 rounded-end shadow-none"
                          role="progressbar"
-                         th:style="'width: ' + ${resumen[3].porcentajeUso} + '%'"
-                         th:aria-valuenow="${resumen[3].porcentajeUso}"
+                         th:style="'width: ' + (${resumenMap['Pista de atletismo'] != null} ? ${resumenMap['Pista de atletismo'].porcentajeUso} : 0) + '%'"
+                         th:aria-valuenow="${resumenMap['Pista de atletismo'] != null} ? ${resumenMap['Pista de atletismo'].porcentajeUso} : 0"
                          aria-valuemin="0" aria-valuemax="100"
-                         th:text="${resumen[3].porcentajeUso} + '%'">
-                    </div>
+                         th:text="(${resumenMap['Pista de atletismo'] != null} ? ${#numbers.formatDecimal(resumenMap['Pista de atletismo'].porcentajeUso, 1, 2)} : 0) + '%'"></div>
                   </div>
 
                   <div class="table-responsive">
                     <table class="table card-table">
+                      <thead>
+                      <tr>
+                        <th>Tipo de Espacio</th>
+                        <th class="text-end">Cantidad</th>
+                        <th class="text-end">Total Reservas</th>
+                        <th class="text-end">Porcentaje de Uso</th>
+                      </tr>
+                      </thead>
                       <tbody class="table-border-bottom-0">
-                      <tr>
+                      <tr th:each="tipo : ${#lists.toList(cantidadesPorTipo.keySet())}">
                         <td class="w-50 ps-0">
                           <div class="d-flex justify-content-start align-items-center">
                             <div class="me-2">
-                              <i class="bx bx-water"></i>
+                              <i th:switch="${tipo}">
+                                <i th:case="'Piscina'" class="bx bx-water"></i>
+                                <i th:case="'Gimnasio'" class="bx bx-dumbbell"></i>
+                                <i th:case="'Cancha de fútbol-Grass Sintético'" class="bx bx-football"></i>
+                                <i th:case="'Cancha de fútbol-Loza'" class="bx bx-football"></i>
+                                <i th:case="*" class="bx bx-run"></i>
+                              </i>
                             </div>
-                            <h6 class="mb-0 fw-normal">Piscinas</h6>
+                            <h6 class="mb-0 fw-normal" th:text="${tipo}"></h6>
                           </div>
                         </td>
                         <td class="text-end pe-0 text-nowrap">
-                          <h6 class="mb-0" th:text="${cantidadPiscinas}">3</h6>
-                        </td>
-                        <td class="text-end pe-0">
-                          <span class="fw-medium" th:text="${resumen[2].porcentajeUso} + '%'">39.7%</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="w-50 ps-0">
-                          <div class="d-flex justify-content-start align-items-center">
-                            <div class="me-2">
-                              <i class="bx bx-dumbbell"></i>
-                            </div>
-                            <h6 class="mb-0 fw-normal">Gimnasios</h6>
-                          </div>
+                          <h6 class="mb-0" th:text="${cantidadesPorTipo.get(tipo)}">0</h6>
                         </td>
                         <td class="text-end pe-0 text-nowrap">
-                          <h6 class="mb-0" th:text="${cantidadGimnasios}">4</h6>
+                          <h6 class="mb-0" th:text="${resumenMap.get(tipo)?.totalReservas ?: 0}">0</h6>
                         </td>
                         <td class="text-end pe-0">
-                          <span class="fw-medium" th:text="${resumen[4].porcentajeUso} + '%'">28.3%</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="w-50 ps-0">
-                          <div class="d-flex justify-content-start align-items-center">
-                            <div class="me-2">
-                              <i class="fas fa-futbol"></i>
-                            </div>
-                            <h6 class="mb-0 fw-normal">Cancha de fútbol - Grass</h6>
-                          </div>
-                        </td>
-                        <td class="text-end pe-0 text-nowrap">
-                          <h6 class="mb-0" th:text="${cantidadCanchaGrass}">3</h6>
-                        </td>
-                        <td class="text-end pe-0">
-                          <span class="fw-medium" th:text="${resumen[0].porcentajeUso} + '%'">10.2%</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="w-50 ps-0">
-                          <div class="d-flex justify-content-start align-items-center">
-                            <div class="me-2">
-                              <i class="fas fa-futbol"></i>
-                            </div>
-                            <h6 class="mb-0 fw-normal">Cancha de fútbol - Loza</h6>
-                          </div>
-                        </td>
-                        <td class="text-end pe-0 text-nowrap">
-                          <h6 class="mb-0" th:text="${cantidadCanchaLoza}">4</h6>
-                        </td>
-                        <td class="text-end pe-0">
-                          <span class="fw-medium" th:text="${resumen[1].porcentajeUso} + '%'">7.2%</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="w-50 ps-0">
-                          <div class="d-flex justify-content-start align-items-center">
-                            <div class="me-2">
-                              <i class="bx bx-run"></i>
-                            </div>
-                            <h6 class="mb-0 fw-normal">Pista de atletismo</h6>
-                          </div>
-                        </td>
-                        <td class="text-end pe-0 text-nowrap">
-                          <h6 class="mb-0" th:text="${cantidadPistaAtletismo}">8</h6>
-                        </td>
-                        <td class="text-end pe-0">
-                          <span class="fw-medium" th:text="${resumen[3].porcentajeUso} + '%'">14.6%</span>
+        <span class="fw-medium"
+              th:text="${resumenMap.get(tipo)?.porcentajeUso != null} ?
+                        ${#numbers.formatDecimal(resumenMap.get(tipo).porcentajeUso, 1, 2)} + '%' : '0%'">0%</span>
                         </td>
                       </tr>
                       </tbody>
@@ -313,9 +257,7 @@
               </div>
             </div>
 
-
-            <!--/ Vehicles overview -->
-
+            <!-- Tendencias de Reservas -->
             <div class="col-lg-6 col-xxl-6 mb-4 order-3 order-xxl-1">
               <div class="card h-100">
                 <div class="card-header d-flex align-items-center justify-content-between">
@@ -357,109 +299,87 @@
                 </div>
               </div>
             </div>
-
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script th:inline="javascript">
-              /*<![CDATA[*/
-              document.addEventListener('DOMContentLoaded', function () {
-                const ctx = document.getElementById('reservationTrendsChart').getContext('2d');
-
-                // Tendencias viene como lista con anio, mes, dia, tipoEspacio y totalReservas
-                const tendencias = /*[[${tendencias}]]*/ [];
-
-                // Función para formatear la fecha a yyyy-MM-dd con ceros a la izquierda
-                function formatearFecha(anio, mes, dia) {
-                  const mm = mes.toString().padStart(2, '0');
-                  const dd = dia.toString().padStart(2, '0');
-                  return `${anio}-${mm}-${dd}`;
-                }
-
-                // Extraer todas las fechas únicas ordenadas para labels
-                const fechasSet = new Set();
-                tendencias.forEach(t => {
-                  const fechaStr = formatearFecha(t.anio, t.mes, t.dia);
-                  fechasSet.add(fechaStr);
-                });
-                const fechas = Array.from(fechasSet).sort();
-
-                // Extraer tipos de espacio únicos
-                const tiposSet = new Set();
-                tendencias.forEach(t => tiposSet.add(t.tipoEspacio));
-                const tipos = Array.from(tiposSet);
-
-                // Construir un mapa para datos por tipoEspacio y fecha
-                const datosPorTipo = {};
-                tipos.forEach(tipo => {
-                  datosPorTipo[tipo] = fechas.map(fecha => {
-                    // Buscar el total reservas para ese tipo y fecha
-                    const item = tendencias.find(t => {
-                      const f = formatearFecha(t.anio, t.mes, t.dia);
-                      return t.tipoEspacio === tipo && f === fecha;
-                    });
-                    return item ? item.totalReservas : 0;
-                  });
-                });
-
-                // Crear datasets para Chart.js
-                const colores = ['#4e73df', '#1cc88a', '#f6c23e', '#e74a3b', '#36b9cc'];
-                const datasets = tipos.map((tipo, i) => ({
-                  label: tipo,
-                  data: datosPorTipo[tipo],
-                  borderColor: colores[i % colores.length],
-                  fill: false
-                }));
-
-                const reservationTrendsChart = new Chart(ctx, {
-                  type: 'line',
-                  data: {
-                    labels: fechas,
-                    datasets: datasets
-                  },
-                  options: {
-                    responsive: true,
-                    scales: {
-                      y: { beginAtZero: true, title: { display: true, text: 'Número de Reservas' } },
-                      x: { title: { display: true, text: 'Fecha' } }
-                    }
-                  }
-                });
-              });
-              /*]]>*/
-            </script>
-
-
-            <!--/ Shipment statistics -->
-
-
-
-
           </div>
-          <!-- / Content -->
-
-
-
-
-
-
-
-          <div class="content-backdrop fade"></div>
         </div>
-        <!-- Content wrapper -->
+
+        <!-- Script para el gráfico de tendencias -->
+        <script th:inline="javascript">
+          /*<![CDATA[*/
+          document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('reservationTrendsChart').getContext('2d');
+            const tendencias = /*[[${tendencias}]]*/ [];
+
+            // Función para formatear la fecha a yyyy-MM-dd
+            function formatearFecha(anio, mes, dia) {
+              const mm = mes.toString().padStart(2, '0');
+              const dd = dia.toString().padStart(2, '0');
+              return `${anio}-${mm}-${dd}`;
+            }
+
+            // Extraer fechas únicas ordenadas
+            const fechasSet = new Set();
+            tendencias.forEach(t => {
+              const fechaStr = formatearFecha(t.anio, t.mes, t.dia);
+              fechasSet.add(fechaStr);
+            });
+            const fechas = Array.from(fechasSet).sort();
+
+            // Extraer tipos de espacio únicos
+            const tiposSet = new Set();
+            tendencias.forEach(t => tiposSet.add(t.tipoEspacio));
+            const tipos = Array.from(tiposSet);
+
+            // Construir datos por tipoEspacio y fecha
+            const datosPorTipo = {};
+            tipos.forEach(tipo => {
+              datosPorTipo[tipo] = fechas.map(fecha => {
+                const item = tendencias.find(t => {
+                  const f = formatearFecha(t.anio, t.mes, t.dia);
+                  return t.tipoEspacio === tipo && f === fecha;
+                });
+                return item ? item.totalReservas : 0;
+              });
+            });
+
+            // Crear datasets para Chart.js
+            const colores = ['#4e73df', '#1cc88a', '#f6c23e', '#e74a3b', '#36b9cc'];
+            const datasets = tipos.map((tipo, i) => ({
+              label: tipo,
+              data: datosPorTipo[tipo],
+              borderColor: colores[i % colores.length],
+              fill: false
+            }));
+
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: fechas,
+                datasets: datasets
+              },
+              options: {
+                responsive: true,
+                scales: {
+                  y: { beginAtZero: true, title: { display: true, text: 'Número de Reservas' } },
+                  x: { title: { display: true, text: 'Fecha' } }
+                }
+              }
+            });
+          });
+          /*]]>*/
+        </script>
+
+        <div class="content-backdrop fade"></div>
       </div>
-      <!-- / Layout page -->
+      <!-- Content wrapper -->
     </div>
-
-  </div> <!-- Falta este cierre -->
-
-
+    <!-- / Layout page -->
+  </div>
 
   <!-- Overlay -->
   <div class="layout-overlay layout-menu-toggle"></div>
 
-
   <!-- Drag Target Area To SlideIn Menu On Small Screens -->
   <div class="drag-target"></div>
-
 </div>
 <!-- / Layout wrapper -->
 
@@ -472,10 +392,13 @@
 <script th:src="@{/vendor/libs/i18n/i18n.js}"></script>
 <script th:src="@{/vendor/libs/typeahead-js/typeahead.js}"></script>
 <script th:src="@{/vendor/js/menu.js}"></script>
+
 <!-- Vendors JS -->
 <script th:src="@{/vendor/libs/datatables-bs5/datatables-bootstrap5.js}"></script>
+
 <!-- Main JS -->
 <script th:src="@{/js/main.js}"></script>
+
 <!-- Page JS -->
 <script th:src="@{/js/app-user-view-account.js}"></script>
 </body>

@@ -121,8 +121,8 @@ public class AdminController {
         model.addAttribute("lugar", lugarRepository.findAll());
         model.addAttribute("estados", estadoEspacioRepository.findAll());
         model.addAttribute("tipos", Arrays.asList(
-                "Cancha de fútbol - Grass Sintético",
-                "Cancha de fútbol - Loza",
+                "Cancha de fútbol-Grass Sintético",
+                "Cancha de fútbol-Loza",
                 "Piscina",
                 "Gimnasio",
                 "Pista de atletismo"
@@ -173,49 +173,74 @@ public class AdminController {
 
     @GetMapping("/dashboard_servicios")
     public String listarEspaciosPorTipo(Model model) {
+        // Obtener resumen de reservas
         List<ReservaDto> resumen = reservaRepository.obtenerResumenReservas();
-        model.addAttribute("resumen", resumen);
-        List<Object[]> resultados = cantEspacioRepository.contarPorTipoEspecifico();
+
+        // Imprimir contenido de resumen crudo
+        System.out.println("resumen (crudo): " + resumen);
+        for (ReservaDto dto : resumen) {
+            System.out.println("Tipo: " + dto.getTipo() +
+                    ", TotalReservas: " + dto.getTotalReservas() +
+                    ", TotalEspacios: " + dto.getTotalEspacios() +
+                    ", PorcentajeUso: " + dto.getPorcentajeUso());
+        }
+
+        // Transformar resumen en un Map por tipo con valores por defecto
+        Map<String, ReservaDto> resumenMap = new HashMap<>();
+        String[] tiposEsperados = {
+                "Piscina",
+                "Gimnasio",
+                "Cancha de fútbol-Loza",
+                "Cancha de fútbol-Grass Sintético",
+                "Pista de atletismo"
+        };
+
+        // Inicializar con valores por defecto
+        for (String tipo : tiposEsperados) {
+            resumenMap.put(tipo, new ReservaDto() {
+                @Override public String getTipo() { return tipo; }
+                @Override public Integer getTotalReservas() { return 0; }
+                @Override public Integer getTotalEspacios() { return 0; }
+                @Override public Double getPorcentajeUso() { return 0.0; }
+            });
+        }
+
+        // Llenar con datos reales (usando los tipos exactos como vienen de la base de datos)
+        for (ReservaDto dto : resumen) {
+            resumenMap.put(dto.getTipo(), dto);
+        }
+
+        // Imprimir contenido de resumenMap
+        System.out.println("resumenMap: " + resumenMap);
+        for (Map.Entry<String, ReservaDto> entry : resumenMap.entrySet()) {
+            System.out.println("Tipo: " + entry.getKey() +
+                    ", TotalReservas: " + entry.getValue().getTotalReservas() +
+                    ", PorcentajeUso: " + entry.getValue().getPorcentajeUso());
+        }
+
+        model.addAttribute("resumenMap", resumenMap);
+
+        // Obtener tendencias de reservas
         List<TendenciaReservaDTO> tendencias = tendenciaReservaRepository.obtenerTendenciaReservas();
         model.addAttribute("tendencias", tendencias);
 
-
-        // Inicializar contadores en cero
-        int cantidadPiscinas = 0;
-        int cantidadGimnasios = 0; // Si tienes gimnasios también, o pon cero si no
-        int cantidadCanchaLoza = 0;
-        int cantidadCanchaGrass = 0;
-        int cantidadPistaAtletismo = 0;
+        // Contar espacios por tipo
+        List<Object[]> resultados = cantEspacioRepository.contarPorTipoEspecifico();
+        Map<String, Integer> cantidadesPorTipo = new HashMap<>();
+        for (String tipo : tiposEsperados) {
+            cantidadesPorTipo.put(tipo, 0);
+        }
 
         for (Object[] fila : resultados) {
             String tipo = (String) fila[0];
             Long cantidad = (Long) fila[1];
-
-            switch (tipo) {
-                case "Piscina":
-                    cantidadPiscinas = cantidad.intValue();
-                    break;
-                case "Gimnasio":
-                    cantidadGimnasios = cantidad.intValue();
-                    break;
-                case "Cancha de fútbol-Loza":
-                    cantidadCanchaLoza = cantidad.intValue();
-                    break;
-                case "Cancha de fútbol-Grass Sintético":
-                case "Cancha de fútbol - Grass Sintético":
-                    cantidadCanchaGrass = cantidad.intValue();
-                    break;
-                case "Pista de atletismo":
-                    cantidadPistaAtletismo = cantidad.intValue();
-                    break;
+            if (cantidadesPorTipo.containsKey(tipo)) {
+                cantidadesPorTipo.put(tipo, cantidad.intValue());
             }
         }
 
-        model.addAttribute("cantidadPiscinas", cantidadPiscinas);
-        model.addAttribute("cantidadGimnasios", cantidadGimnasios);
-        model.addAttribute("cantidadCanchaLoza", cantidadCanchaLoza);
-        model.addAttribute("cantidadCanchaGrass", cantidadCanchaGrass);
-        model.addAttribute("cantidadPistaAtletismo", cantidadPistaAtletismo);
+        System.out.println("cantidadesPorTipo: " + cantidadesPorTipo);
+        model.addAttribute("cantidadesPorTipo", cantidadesPorTipo);
 
         return "admin/dashboard_servicios";
     }
