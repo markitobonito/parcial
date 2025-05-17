@@ -112,10 +112,30 @@
                                     todas las edades. <br><br>
                                     Ubicada en una zona accesible y segura, esta cancha está equipada con iluminación para actividades
                                     nocturnas y cercanía a baños públicos y bebederos. <br><br>
-                                    Recuerda cumplir con nuestras <a th:href="@{/normas}" style="color: blue; text-decoration: underline;">normas y reglamento de uso</a>.
+                                    Recuerda cumplir con nuestras <a href="https://drive.google.com/file/d/1BI-m8409hcVNJZSRo5WnL4nHbkBB12IO/view?usp=sharing" target="_blank" style="color: blue; text-decoration: underline;">normas y reglamento de uso</a>.
                                 </p>
-                                <h4 class="text-primary mt-2">Observaciones: </h4>
-                                <p class="mb-4 text-dark"><span th:text="${espacio.observaciones}"></span></p>
+
+                                <h4 class="text-primary mt-2">Observaciones</h4>
+
+                                <div class="table-responsive mb-4">
+                                    <table class="table table-bordered">
+                                        <thead class="table-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Observación completa</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="obs, iterStat : ${espacio.observacionesComoLista}">
+                                            <td th:text="${iterStat.count}"></td>
+                                            <td th:text="${obs}"></td>
+                                        </tr>
+                                        <tr th:if="${#lists.isEmpty(espacio.observacionesComoLista)}">
+                                            <td colspan="2" class="text-center text-muted">No hay observaciones registradas.</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
 
                                 <h4 class="text-primary">Más detalles</h4>
                                 <div class="d-flex flex-wrap justify-content-center">

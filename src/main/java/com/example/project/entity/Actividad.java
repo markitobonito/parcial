@@ -27,4 +27,23 @@ public class Actividad {
 
     @Column(name = "fecha", nullable = false)
     private LocalDateTime fecha;
+
+    public String getColorClass() {
+        if (descripcion == null) return "timeline-point-secondary";
+
+        switch (descripcion) {
+            case "Agregó una observación":
+                return "timeline-point-info";
+            case "Cambio de estado":
+                return "timeline-point-warning";
+            case "Inició una Asistencia":
+                return "timeline-point-primary";
+            case "Registró una Asistencia":
+                return "timeline-point-success";
+            default:
+                return "timeline-point-danger";
+        }
+    }
+
+
 }

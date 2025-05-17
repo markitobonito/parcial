@@ -90,7 +90,12 @@
                         <div class="row">
                             <div class="col-xl-12 col-lg-12 col-md-12">
                                 <div class="card mb-4">
-                                    <h5 class="card-header">Lista de Espacios Deportivos</h5>
+                                    <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+                                        <h5 class="mb-0">Lista de Espacios Deportivos</h5>
+                                        <label for="filtroEspacios"></label>
+                                        <input type="text" id="filtroEspacios" class="form-control w-auto" placeholder="Buscar por nombre, estado o ubicación..." />
+                                    </div>
+
                                     <div class="table-responsive text-nowrap">
                                         <table class="table table-striped">
                                             <thead>
@@ -103,7 +108,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="table-border-bottom-0" id="espaciosTableBody">
-                                                <tr th:each="espacio : ${espacios}">
+                                                <tr th:each="espacio : ${espacios}" th:attr="data-estado=${espacio.idEstadoEspacio.estado}">
                                                     <td></td>
                                                     <td><span class="fw-medium" th:text="${espacio.nombre}"></span></td>
                                                     <td>
@@ -142,8 +147,19 @@
                                                     <td colspan="4">No hay espacios disponibles.</td>
                                                 </tr>
                                             </tbody>
+
                                         </table>
                                     </div>
+
+                                    <div class="card-footer">
+                                        <!-- Contenedor de paginación visual -->
+                                        <nav aria-label="Page navigation">
+                                            <ul class="pagination justify-content-center" id="paginacionEspacios">
+                                                <!-- Se llenará por JavaScript -->
+                                            </ul>
+                                        </nav>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -237,5 +253,91 @@
             $('#idEspacio').val(idEspacio);
         }
     </script>
+
+    <!-- Script de paginación personalizada -->
+    <script>
+        const filasPorPagina = 5;
+        let filas = [];
+        let paginaActual = 1;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            filas = Array.from(document.querySelectorAll("#espaciosTableBody tr"));
+            const paginacion = document.getElementById("paginacionEspacios");
+            const inputFiltro = document.getElementById("filtroEspacios");
+
+            // Filtro en tiempo real que incluye estado por data-estado
+            inputFiltro.addEventListener("input", () => {
+                const texto = inputFiltro.value.toLowerCase();
+                filas.forEach((fila) => {
+                    const textoNormalizado = texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+                    const contenido = fila.innerText.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+                    const estado = fila.getAttribute("data-estado")?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() || "";
+                    const visible = contenido.includes(textoNormalizado) || estado.includes(textoNormalizado);
+
+                    fila.style.display = visible ? "" : "none";
+                });
+                mostrarPagina(1, true);
+            });
+
+            // Guardar página antes de ir a detalles
+            document.querySelectorAll("a[href*='detalles']").forEach(a => {
+                a.addEventListener("click", () => {
+                    localStorage.setItem("paginaActualEspacios", paginaActual);
+                });
+            });
+
+            // Restaurar página guardada
+            const paginaGuardada = parseInt(localStorage.getItem("paginaActualEspacios"));
+            if (!isNaN(paginaGuardada) && paginaGuardada > 0) {
+                mostrarPagina(paginaGuardada);
+                localStorage.removeItem("paginaActualEspacios");
+            } else {
+                mostrarPagina(1);
+            }
+
+            function mostrarPagina(pagina, soloVisibles = false) {
+                const visibles = soloVisibles
+                    ? filas.filter(f => f.style.display !== "none")
+                    : filas;
+
+                const inicio = (pagina - 1) * filasPorPagina;
+                const fin = inicio + filasPorPagina;
+
+                filas.forEach(f => f.style.display = "none");
+                visibles.slice(inicio, fin).forEach(f => f.style.display = "");
+
+                paginaActual = pagina;
+                actualizarPaginacion(visibles);
+            }
+
+            function actualizarPaginacion(visibles) {
+                paginacion.innerHTML = "";
+                const totalPaginas = Math.ceil(visibles.length / filasPorPagina);
+
+                const crearBoton = (clase, icono, accion) => {
+                    const li = document.createElement("li");
+                    li.className = `page-item ${clase}`;
+                    li.innerHTML = `<a class="page-link" href="javascript:void(0);"><i class="tf-icon bx ${icono}"></i></a>`;
+                    li.addEventListener("click", accion);
+                    return li;
+                };
+
+                paginacion.appendChild(crearBoton("first", "bx-chevrons-left", () => mostrarPagina(1)));
+                paginacion.appendChild(crearBoton("prev", "bx-chevron-left", () => mostrarPagina(Math.max(1, paginaActual - 1))));
+
+                for (let i = 1; i <= totalPaginas; i++) {
+                    const li = document.createElement("li");
+                    li.className = "page-item" + (i === paginaActual ? " active" : "");
+                    li.innerHTML = `<a class="page-link" href="javascript:void(0);">${i}</a>`;
+                    li.addEventListener("click", () => mostrarPagina(i));
+                    paginacion.appendChild(li);
+                }
+
+                paginacion.appendChild(crearBoton("next", "bx-chevron-right", () => mostrarPagina(Math.min(totalPaginas, paginaActual + 1))));
+                paginacion.appendChild(crearBoton("last", "bx-chevrons-right", () => mostrarPagina(totalPaginas)));
+            }
+        });
+    </script>
+
 </body>
 </html>

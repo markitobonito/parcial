@@ -2,6 +2,9 @@ package com.example.project.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Getter
 @Setter
@@ -37,4 +40,12 @@ public class Espacio {
     private byte[] foto2;
     @Column(name="foto3")
     private byte[] foto3;
+
+    public List<String> getObservacionesComoLista() {
+        if (this.observaciones == null || this.observaciones.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        return Arrays.asList(this.observaciones.split("\\n"));
+    }
+
 }

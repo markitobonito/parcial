@@ -192,7 +192,19 @@ public class CoordinadorController {
         Espacio espacio = espacioRepositoryCoord.findById(idEspacio).orElse(null);
         if (espacio != null) {
             String observacionesExistentes = espacio.getObservaciones() != null ? espacio.getObservaciones() : "";
-            espacio.setObservaciones(observacionesExistentes + "\n" + observacion + " (Agregado el " + java.time.LocalDate.now() + ")");
+
+            // Construir nueva observación con salto de línea
+            String nuevaObservacion = observacion + " (Agregado el " + java.time.LocalDate.now() + ")";
+            String observacionesActualizadas = observacionesExistentes.isEmpty()
+                    ? nuevaObservacion
+                    : observacionesExistentes + "\n" + nuevaObservacion;
+
+            // Imprimir cómo se está guardando el campo
+            System.out.println("---- OBSERVACIONES GUARDADAS ----");
+            System.out.println(observacionesActualizadas.replace("\n", "\\n"));
+            System.out.println("----------------------------------");
+
+            espacio.setObservaciones(observacionesActualizadas);
             espacioRepositoryCoord.save(espacio);
 
             Actividad actividad = new Actividad();
@@ -234,6 +246,15 @@ public class CoordinadorController {
             geo.setHoraFin(Time.valueOf(LocalTime.now()));
             geo.setEstado(asistio);
             geolocalizacionRepository.save(geo);
+
+            Actividad actividad = new Actividad();
+            actividad.setUsuario(coordinador);
+            actividad.setDescripcion("Registró una Asistencia");
+            actividad.setDetalle("Se ha registrado la hora de salida a las " + geo.getHoraFin() +
+                    (geo.getEspacio() != null ? " en \"" + geo.getEspacio().getNombre() + "\"" : "") +
+                    ". Asistencia completada.");
+            actividad.setFecha(LocalDateTime.now());
+            actividadRepository.save(actividad);
         } else {
             // No ha marcado aún hoy: crear nueva asistencia
             Geolocalizacion geo = new Geolocalizacion();
@@ -245,6 +266,15 @@ public class CoordinadorController {
             geo.setObservacion(null); // opcional
             geo.setEspacio(null);     // puedes asignar si aplica
             geolocalizacionRepository.save(geo);
+
+            Actividad actividad = new Actividad();
+            actividad.setUsuario(coordinador);
+            actividad.setDescripcion("Inició una Asistencia");
+            actividad.setDetalle("Se ha registrado la hora de entrada a las " + geo.getHoraInicio() +
+                    (geo.getEspacio() != null ? " en \"" + geo.getEspacio().getNombre() + "\"" : "") +
+                    ". Asistencia en curso.");
+            actividad.setFecha(LocalDateTime.now());
+            actividadRepository.save(actividad);
         }
 
         return "redirect:/coordinador/asistencia";

@@ -111,7 +111,7 @@
                                         <li th:each="actividad : ${actividades}">
                                             <div class="timeline-item timeline-item-transparent">
                                                 <span class="timeline-point-wrapper">
-                                                    <span class="timeline-point timeline-point-success"></span>
+                                                    <span class="timeline-point" th:classappend="${actividad.colorClass}"></span>
                                                 </span>
                                                 <div class="timeline-event">
                                                     <div class="timeline-header mb-1">
