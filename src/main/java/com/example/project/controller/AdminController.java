@@ -161,10 +161,20 @@ public class AdminController {
     @GetMapping("/espacios_deportivos")
     public String listarEspacios(Model model) {
         List<EspacioDto> espacios = espacioRepository.findAllEspacioDtos();
+        List<String> estados = List.of("Disponible", "Ocupado", "Mantenimiento");
+
         model.addAttribute("espacios", espacios);
-        return "admin/espacios_deportivos";  // nombre de la plantilla Thymeleaf (lista-espacios.html)
+        model.addAttribute("estados", estados);
+
+        return "admin/espacios_deportivos";
     }
 
+    @PostMapping("/actualizar_estado")
+    public String actualizarEstado(@RequestParam Integer idEspacio,
+                                   @RequestParam String nuevoEstado) {
+        espacioRepository.actualizarEstado(idEspacio, nuevoEstado);
+        return "redirect:/admin/espacios_deportivos";
+    }
 
     @Autowired
     private Cant_espacioRepository cantEspacioRepository;
@@ -293,4 +303,24 @@ public class AdminController {
         return new ResponseEntity<>(imagen, headers, HttpStatus.OK);
     }
 
+    @Autowired
+    private DetallesReservaRepository detallesReservaRepository;
+
+
+    // Mostrar detalle de reserva por id
+    @GetMapping("/detalles_reservas/{id}")
+    public String verDetalleReserva(@PathVariable("id") Long id, Model model) {
+        Optional<DetallesReservaDto> reservaOpt = detallesReservaRepository.obtenerDetallesReservas()
+                .stream()
+                .filter(r -> r.getId().equals(id))
+                .findFirst();
+
+        if (reservaOpt.isEmpty()) {
+            // Manejar error: reserva no encontrada
+            return "redirect:/admin/detalles_reservas?error=notfound";
+        }
+        System.out.println("Detalle reserva id: " + id);
+        model.addAttribute("reserva", reservaOpt.get());
+        return "admin/detalles_reservas"; // vista para el detalle individual
+    }
 }

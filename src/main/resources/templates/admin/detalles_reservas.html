@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="es"
+      class="light-style layout-navbar-fixed layout-menu-fixed layout-compact"
+      dir="ltr"
+      data-theme="theme-semi-dark"
+      data-assets-path="/"
+      data-template="vertical-menu-template-semi-dark">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Detalles de Reservas</title>
+    <meta name="description" content="Most Powerful & Comprehensive Bootstrap 5 Admin Dashboard built for developers!" />
+    <meta name="keywords" content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
+    <link rel="canonical" href="https://themeselection.com/item/sneat-dashboard-pro-bootstrap/">
+
+    <!-- Google Tag Manager -->
+    <script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-5DDHKGP');
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="/vendor/fonts/fontawesome.css" />
+    <link rel="stylesheet" href="/vendor/fonts/flag-icons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="/vendor/css/rtl/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="/vendor/css/rtl/theme-semi-dark.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="/vendor/libs/datatables-bs5/datatables.bootstrap5.css">
+    <link rel="stylesheet" href="/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css">
+    <link rel="stylesheet" href="/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css">
+    <link rel="stylesheet" href="/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css">
+    <link rel="stylesheet" href="/vendor/libs/flatpickr/flatpickr.css" />
+    <link rel="stylesheet" href="/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css">
+    <link rel="stylesheet" href="/vendor/libs/%40form-validation/form-validation.css" />
+
+    <!-- Helpers -->
+    <script src="/vendor/js/helpers.js"></script>
+    <script src="/js/config.js"></script>
+</head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0" style="display: none; visibility: hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+        <!-- Sidebar -->
+        <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+        <!-- Layout page -->
+        <div class="layout-page">
+            <!-- Navbar -->
+            <div th:replace="~{admin/fragments/navbar :: navbar}"></div>
+
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+                <!-- Content -->
+                <div class="container-xxl container-p-y">
+                    <div class="card">
+                        <div class="card-body row g-3">
+                            <div class="col-lg-7">
+                                <!-- Título espacio -->
+                                <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
+                                    <h2 class="mb-2 text-uppercase"
+                                        style="color: black; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
+                                        th:text="${reserva.nombreEspacio}">Nombre del Reserva</h2>
+                                    <div class="d-flex align-items-center">
+                                        <span class="badge bg-body" style="color: gray;" th:text="${reserva.tipoEspacio}">Tipo del espacio</span>
+                                        <i class='bx bx-share-alt bx-sm mx-4 cursor-pointer'></i>
+                                    </div>
+                                </div>
+                                <!-- /Título espacio -->
+
+                                <!-- Foto del espacio -->
+
+                                <div class="mb-4 text-center" th:if="${reserva.fotoEspacio != null }">
+                                    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active" th:if="${reserva.fotoEspacio != null}">
+                                                <img class="d-block w-100 rounded"
+                                                     th:src="@{/admin/imagen/{id}/{numero}(id=${reserva.id}, numero=1)}"
+                                                     alt="Foto 1"
+                                                     style="max-height: 500px; object-fit: cover;" />
+                                            </div>
+                                        </div>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- /Foto del espacio -->
+                            </div>
+
+                            <div class="col-lg-5">
+                                <h4 class="text-primary mt-2">Detalles de Reserva</h4>
+
+                                <p class="text-dark"><strong>Fecha:</strong> <span th:text="${reserva.fecha}">2025-05-18</span></p>
+                                <p class="text-dark"><strong>Hora Inicio:</strong> <span th:text="${reserva.horaInicio}">08:00</span></p>
+                                <p class="text-dark"><strong>Hora Fin:</strong> <span th:text="${reserva.horaFin}">10:00</span></p>
+                                <p class="text-dark"><strong>Tipo de Espacio:</strong> <span th:text="${reserva.tipoEspacio}">Cancha</span></p>
+                                <p class="text-dark"><strong>Nombre del Espacio:</strong> <span th:text="${reserva.nombreEspacio}">Cancha Principal</span></p>
+                                <p class="text-dark"><strong>Coordinador:</strong> <span th:text="${reserva.coordinadorNombre}">Juan Pérez</span></p>
+                                <p class="text-dark"><strong>Vecino:</strong> <span th:text="${reserva.vecinoNombre}">María López</span></p>
+                                <p class="text-dark"><strong>Estado:</strong> <span th:text="${reserva.estado}">Confirmado</span></p>
+                                <p class="text-dark"><strong>Tipo de Pago:</strong> <span th:text="${reserva.tipoPago}">Tarjeta</span></p>
+                                <p class="text-dark"><strong>Costo:</strong> S/ <span th:text="${reserva.costo}">50.00</span></p>
+
+                                <div class="row pt-1" style="text-align: center;">
+                                    <div class="col">
+                                        <a th:href="@{/admin/servicios_deportivos}" class="btn btn-primary"
+                                           style="font-size: 1rem; border-radius: 15px; margin: 0 20px;">Volver</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-backdrop fade"></div>
+                <!-- /Content -->
+            </div>
+            <!-- /Content wrapper -->
+        </div>
+        <!-- /Layout page -->
+    </div>
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+
+    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+    <div class="drag-target"></div>
+</div>
+<!-- /Layout wrapper -->
+
+<!-- Core JS -->
+<script src="/vendor/libs/jquery/jquery.js"></script>
+<script src="/vendor/libs/popper/popper.js"></script>
+<script src="/vendor/js/bootstrap.js"></script>
+<script src="/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="/vendor/libs/hammer/hammer.js"></script>
+<script src="/vendor/libs/i18n/i18n.js"></script>
+<script src="/vendor/libs/typeahead-js/typeahead.js"></script>
+<script src="/vendor/js/menu.js"></script>
+
+<!-- Vendors JS -->
+<script src="/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+<script src="/vendor/libs/moment/moment.js"></script>
+<script src="/vendor/libs/flatpickr/flatpickr.js"></script>
+<script src="/vendor/libs/%40form-validation/popular.js"></script>
+<script src="/vendor/libs/%40form-validation/bootstrap5.js"></script>
+<script src="/vendor/libs/%40form-validation/auto-focus.js"></script>
+
+<!-- Main JS -->
+<script src="/js/main.js"></script>
+
+<!-- Page JS -->
+<script src="/js/tables-datatables-basic.js"></script>
+</body>
+</html>

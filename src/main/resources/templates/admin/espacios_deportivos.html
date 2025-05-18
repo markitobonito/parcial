@@ -112,7 +112,20 @@
                                     <td th:text="${espacio.tipo}"></td>
                                     <td th:text="${espacio.nombreLugar}"></td>
                                     <td th:text="${#numbers.formatCurrency(espacio.costo)}"></td>
-                                    <td th:text="${espacio.estadoEspacio}"></td>
+                                    <td>
+                                        <form th:action="@{/admin/actualizar_estado}" method="post" style="display:inline-block;">
+                                            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                                            <input type="hidden" name="idEspacio" th:value="${espacio.idEspacio}" />
+                                            <select name="nuevoEstado" class="form-select form-select-sm" style="width:auto; display:inline-block;">
+                                                <option th:each="estado : ${estados}"
+                                                        th:value="${estado}"
+                                                        th:text="${estado}"
+                                                        th:selected="${estado == espacio.estadoEspacio}">
+                                                </option>
+                                            </select>
+                                            <button type="submit" class="btn btn-sm btn-primary ms-1">Actualizar</button>
+                                        </form>
+                                    </td>
                                     <td>
                                         <a th:href="@{/admin/detalles/{id}(id=${espacio.idEspacio})}" class="btn btn-sm btn-outline-primary">
                                             <i class="bx bx-show me-1"></i> Ver
@@ -121,6 +134,7 @@
                                 </tr>
                                 </tbody>
                             </table>
+
 
 
                         </div>
