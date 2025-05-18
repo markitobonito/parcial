@@ -35,7 +35,7 @@
     <link rel="stylesheet" th:href="@{/vendor/libs/flatpickr/flatpickr.css}" />
     <link rel="stylesheet" th:href="@{/vendor/libs/select2/select2.css}" />
     <link rel="stylesheet" th:href="@{/vendor/libs/quill/editor.css}" />
-    <link rel="stylesheet" th:href="@{/vendor/libs/@form-validation/form-validation.css}" />
+    <link rel="stylesheet" th:href="@{/vendor/libs/form-validation/form-validation.css}" />
 
     <link rel="stylesheet" th:href="@{/vendor/css/pages/app-calendar.css}" />
 
@@ -47,7 +47,7 @@
 <body style="background-color:rgb(216, 248, 255);">
 
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0" style="display: none; visibility: hidden"></iframe></noscript>
-<div th:replace="~{vecino/navbar :: navbarFragment}"></div>
+<div th:replace="~{registro/navbar :: navbarFragment}"></div>
 <div class="layout-wrapper layout-content-navbar  ">
     <div class="layout-container">
         <div class="layout-page">
@@ -62,7 +62,7 @@
                             <div class="col app-calendar-content">
                                 <div class="card shadow-none border-0">
                                     <div class="card-header">
-                                        <h1>Disponibilidad del Espacio 1</h1>
+                                        <h1>Disponibilidad del <span th:text="${espacio.nombre}"></span></h1>
                                     </div>
                                     <div class="card-body pb-0">
                                         <div id="calendar"></div>
@@ -76,29 +76,32 @@
                                         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                     </div>
                                     <div class="offcanvas-body">
-                                        <form class="event-form pt-0" id="eventForm" onsubmit="return false">
+                                        <form class="event-form pt-0"  method="POST" th:action="@{reserva/save}" ><!--id="eventForm"-->
                                             <div class="mb-3">
-                                                <h6>Espacio 1</h6>
+                                                <h6 th:text="${espacio.nombre}"></h6>
                                             </div>
-
+                                            <input type="hidden" name="coordinador" value="3">
+                                            <input type="hidden" name="costo" th:value="${espacio.costo}">
+                                            <input type="hidden" name="vecino" th:value="${session.usuario.idUsuarios}">
+                                            <input type="hidden" name="estado.idEstadoReserva" th:value="2">
+                                            <input type="hidden" name="espacio" th:value="${espacio.idEspacio}">
                                             <div class="mb-3">
                                                 <label class="form-label" for="eventStartDate">Fecha Inicio</label>
-                                                <input type="text" class="form-control" id="eventStartDate" name="eventStartDate" placeholder="Fecha Inicio" />
+                                                <input type="text" class="form-control" id="eventStartDate" name="dateTimeIni" placeholder="Fecha Inicio" required/>
                                             </div>
 
                                             <div class="mb-3">
                                                 <label class="form-label" for="eventEndDate">Fecha Fin</label>
-                                                <input type="text" class="form-control" id="eventEndDate" name="eventEndDate" placeholder="Fecha Fin" />
+                                                <input type="text" class="form-control" id="eventEndDate" name="dateTimeFin" placeholder="Fecha Fin" required/>
                                             </div>
 
                                             <div class="mb-3">
-                                                <label class="form-label" for="paymentMethod">Método de Pago</label>
-                                                <select class="form-select" id="paymentMethod" name="paymentMethod">
-                                                    <option value="online">Pago en línea</option>
-                                                    <option value="deposit">Depósito bancario</option>
+                                                <label class="form-label" for="paymentMethod">Método de Pago</label> <!--for="paymentMethod"-->
+                                                <select class="form-select" id="paymentMethod" name="tipoPago" required> <!--id="paymentMethod"-->
+                                                    <option value="En linea">Pago en línea</option>
+                                                    <option value="En banco">Depósito bancario</option>
                                                 </select>
                                             </div>
-
                                             <div class="mb-3 d-flex justify-content-sm-between justify-content-start my-4">
                                                 <div>
                                                     <button type="submit" class="btn btn-primary btn-add-event me-sm-3 me-1">Agregar</button>
@@ -106,6 +109,7 @@
                                                 </div>
                                             </div>
                                         </form>
+
                                     </div>
                                 </div>
                             </div>
