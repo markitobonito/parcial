@@ -5,6 +5,7 @@ import com.example.project.entity.*;
 import com.example.project.repository.UsuariosRepository;
 import com.example.project.repository.coordinador.*;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -13,12 +14,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/coordinador")
@@ -52,6 +56,16 @@ public class CoordinadorController {
         List<Actividad> actividades = actividadRepository.findByUsuarioOrderByFechaDesc(coordinador);
         model.addAttribute("coordinador", coordinador);
         model.addAttribute("actividades", actividades);
+
+        // 👇 Aquí agregas las 10 actividades más recientes:
+        List<Actividad> recientes = actividadRepository
+                .findByUsuarioOrderByFechaDesc(usuario)
+                .stream()
+                .limit(10)
+                .collect(Collectors.toList());
+        model.addAttribute("actividades", recientes);
+
+
         return "coordinador/coordinador-perfil-2";
     }
 
@@ -141,6 +155,55 @@ public class CoordinadorController {
         response.put("data", data);
 
         return response;
+    }
+
+    @GetMapping("/exportar-actividad")
+    public void exportarActividad(
+            @RequestParam("formato") String formato,
+            HttpServletResponse response,
+            HttpSession session
+    ) throws IOException {
+        Usuarios usuario = (Usuarios) session.getAttribute("usuario");
+        List<Actividad> actividades = actividadRepository.findByUsuarioOrderByFechaDesc(usuario);
+
+        if ("csv".equalsIgnoreCase(formato)) {
+            response.setContentType("text/csv");
+            response.setHeader("Content-Disposition", "attachment; filename=actividad.csv");
+
+            PrintWriter writer = response.getWriter();
+            writer.println("Fecha,Descripción,Detalle");
+
+            for (Actividad act : actividades) {
+                String detalleLimpio = act.getDetalle().replaceAll(",", " "); // para evitar romper CSV
+                writer.printf("%s,%s,%s%n",
+                        act.getFecha(),
+                        act.getDescripcion(),
+                        detalleLimpio);
+            }
+
+            writer.flush();
+            writer.close();
+
+        } else if ("txt".equalsIgnoreCase(formato)) {
+            response.setContentType("text/plain");
+            response.setHeader("Content-Disposition", "attachment; filename=actividad.txt");
+
+            PrintWriter writer = response.getWriter();
+            writer.println("Reporte de actividad del usuario: " + usuario.getNombres());
+            writer.println("--------------------------------------------");
+
+            for (Actividad act : actividades) {
+                writer.println(act.getFecha() + " - " + act.getDescripcion());
+                writer.println("  " + act.getDetalle());
+                writer.println();
+            }
+
+            writer.flush();
+            writer.close();
+
+        } else {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Formato no soportado.");
+        }
     }
 
 

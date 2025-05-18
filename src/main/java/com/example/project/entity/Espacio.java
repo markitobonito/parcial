@@ -41,6 +41,10 @@ public class Espacio {
     @Column(name="foto3")
     private byte[] foto3;
 
+    @Column(name = "descripcion")
+    private String descripcion;
+
+
     public List<String> getObservacionesComoLista() {
         if (this.observaciones == null || this.observaciones.trim().isEmpty()) {
             return new ArrayList<>();

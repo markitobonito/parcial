@@ -106,14 +106,8 @@
 
                             <div class="col-lg-5">
                                 <h4 class="text-primary mt-2">Descripción</h4>
-                                <p class="mb-4 text-dark">
-                                    El espacio deportivo "<span class="text-primary" style="font-size: large" th:text="${espacio.nombre}"></span>" cuenta con una cancha de grass sintético ideal para la práctica de fútbol, entrenamientos,
-                                    actividades recreativas y eventos deportivos. Su superficie es resistente, de bajo mantenimiento y adecuada para
-                                    todas las edades. <br><br>
-                                    Ubicada en una zona accesible y segura, esta cancha está equipada con iluminación para actividades
-                                    nocturnas y cercanía a baños públicos y bebederos. <br><br>
-                                    Recuerda cumplir con nuestras <a href="https://drive.google.com/file/d/1BI-m8409hcVNJZSRo5WnL4nHbkBB12IO/view?usp=sharing" target="_blank" style="color: blue; text-decoration: underline;">normas y reglamento de uso</a>.
-                                </p>
+                                <p class="text-dark" th:text="${espacio.descripcion}">Descripción del espacio</p>
+                                <p class="mb-4 text-dark">Recuerda cumplir con nuestras <a href="https://drive.google.com/file/d/1BI-m8409hcVNJZSRo5WnL4nHbkBB12IO/view?usp=sharing" target="_blank" style="color: blue; text-decoration: underline;">normas y reglamento de uso</a>.</p>
 
                                 <h4 class="text-primary mt-2">Observaciones</h4>
 
