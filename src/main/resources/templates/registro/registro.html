@@ -47,36 +47,37 @@
       <div class="w-px-400 mx-auto">
         <div class="app-brand mb-5">
           <a th:href="@{/}" class="app-brand-link gap-2"> <span class="app-brand-logo demo">
-                <img th:src="@{/img/icono.ico}" alt="Logo" style="height: 40px; width: 40px;"> </span>
+            <img th:src="@{/img/icono.ico}" alt="Logo" style="height: 40px; width: 40px;"> </span>
             <span class="app-brand-text demo text-body fw-bold">Registro</span>
           </a>
         </div>
         <h4 class="mb-2">Municipalidad de San Miguel</h4>
         <p class="mb-4">Cree su cuenta para comenzar a utilizar el sistema de reservas de espacios de la Municipalidad de San Miguel</p>
 
-        <form id="formAuthentication" class="mb-3" th:action="@{/registro}" method="post">
+        <form id="formAuthentication" class="mb-3" th:action="@{/registro}" method="post" th:object="${usuario}">
           <div class="mb-3">
             <label for="dni" class="form-label">DNI</label>
-            <input type="text" class="form-control" id="dni" name="dni" placeholder="Ingrese su DNI" autofocus>
+            <input type="text" class="form-control" id="dni" name="dni" placeholder="Ingrese su DNI" autofocus th:field="*{dni}" >
+            <span th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}" class="text-danger"></span>
           </div>
           <div class="mb-3">
             <label for="correo" class="form-label" >Correo(Opcional)</label>
-            <input type="text" class="form-control" id="correo" name="correo" placeholder="Ingrese su correo eléctronico" autofocus>
-          </div>
+            <input type="text" class="form-control" id="correo" name="correo" placeholder="Ingrese su correo electrónico" autofocus th:field="*{correo}">
+            <span th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}" class="text-danger"></span> </div>
           <div class="mb-3 form-password-toggle">
             <label class="form-label" for="contrasena">Contraseña</label>
             <div class="input-group input-group-merge">
-              <input type="password" id="contrasena" class="form-control" name="contrasena" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" required/>
+              <input type="password" id="contrasena" class="form-control" name="contrasena" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" th:field="*{contrasena}" required/>
               <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
             </div>
-          </div>
+            <span th:if="${#fields.hasErrors('contrasena')}" th:errors="*{contrasena}" class="text-danger"></span> </div>
           <div class="mb-3 form-password-toggle">
             <label class="form-label" for="confirmContrasena">Confirmar contraseña</label>
             <div class="input-group input-group-merge">
-              <input type="password" id="confirmContrasena" class="form-control" name="confirmContrasena" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" required/>
+              <input type="password" id="confirmContrasena" class="form-control" name="confirmContrasena" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" th:field="*{confirmContrasena}" required/>
               <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
             </div>
-          </div>
+            <span th:if="${#fields.hasErrors('confirmContrasena')}" th:errors="*{confirmContrasena}" class="text-danger"></span> </div>
 
           <div class="mb-3">
             <div class="form-check">

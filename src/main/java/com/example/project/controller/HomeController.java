@@ -1,10 +1,15 @@
 package com.example.project.controller;
+import com.example.project.entity.EstadoUsu;
+import com.example.project.entity.Rol;
 import com.example.project.entity.Usuarios;
 import com.example.project.repository.EstadoUsuRepository;
 import com.example.project.repository.RolRepository;
 import com.example.project.repository.UsuariosRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,29 +60,45 @@ public class HomeController {
 
     @PostMapping("/registro")
     public String procesarRegistro(
-            @RequestParam int dni,
-            @RequestParam(required = false) String correo,
-            @RequestParam String contrasena,
-            @RequestParam String confirmContrasena) {
-
-        if (!contrasena.equals(confirmContrasena)) {
-            // aquí podrías reenviar un error al modelo; para simplificar:
-            return "redirect:/registro?error=diff";
+            @Valid @ModelAttribute("usuario") Usuarios usuario, // <-- ¡Aquí aplicamos @Valid!
+            BindingResult bindingResult, // <-- ¡BindingResult inmediatamente después de @Valid!
+            Model model) { // Pasamos el Model para agregar atributos si necesitamos volver a la vista
+        String dniString = String.valueOf(usuario.getDni());
+        if (dniString.length() != 8) {
+            bindingResult.addError(new FieldError("usuario", "dni", usuario.getDni(), false, new String[]{"usuario.dni.size"}, null, "El DNI debe tener exactamente 8 n\u00FAmeros."));
+        } else if (!dniString.matches("\\d{8}")) { // Verifica que solo sean dígitos
+            bindingResult.addError(new FieldError("usuario", "dni", usuario.getDni(), false, new String[]{"usuario.dni.digits"}, null, "El DNI solo puede contener n\u00FAmeros."));
+        }
+        // 1. Validaciones de Bean Validation (automáticas por @Valid)
+        // 2. Validación manual de contraseña (confirmContrasena)
+        if (!usuario.getContrasena().equals(usuario.getConfirmContrasena())) {
+            // Añadir un error al BindingResult para que Thymeleaf lo detecte
+            bindingResult.addError(new FieldError("usuario", "confirmContrasena", "Las contraseñas no coinciden.")); // Mensaje directo
+            // O mejor, usar el mensaje del properties:
+            // bindingResult.addError(new FieldError("usuario", "confirmContrasena", "", false, new String[]{"usuario.contrasena.mismatch"}, null, "Las contraseñas no coinciden."));
         }
 
-        Usuarios u = new Usuarios();
-        u.setDni(dni);
-        u.setCorreo(correo);
-        u.setContrasena(contrasena);
+        // Si hay errores de validación (ya sean por Bean Validation o por la contraseña que no coincide)
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("usuario", usuario); // Vuelve a enviar el objeto 'usuario' con los datos ingresados
+            return "registro/registro"; // Vuelve a la misma vista para mostrar los errores
+        }
 
+        // Si todas las validaciones pasan:
         // Asignar rol “vecino” y estado “activo”
-        u.setRol( rolRepository.findByRol("Usuario final") );
-        u.setEstado( estadoRepository.findByEstado("activo") );
+        Rol rolUsuario = rolRepository.findByRol("Usuario final");
+        EstadoUsu estadoActivo = estadoRepository.findByEstado("activo");
 
-        usuariosRepository.save(u);
+        usuario.setRol(rolUsuario);
+        usuario.setEstado(estadoActivo);
+        // La contraseña ya viene encriptada si la haces en el servicio, o aquí si no.
+        // ¡Importante: Encripta la contraseña antes de guardarla!
+        // Ejemplo (necesitarías un PasswordEncoder bean):
+        // usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
 
-        // redirige a tu login.html
-        return "redirect:/login";
+        usuariosRepository.save(usuario);
+
+        return "redirect:/login"; // Redirige al login si el registro fue exitoso
     }
 
 
