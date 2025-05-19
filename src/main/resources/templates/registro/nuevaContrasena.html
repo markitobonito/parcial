@@ -1,93 +1,57 @@
 <!DOCTYPE html>
-<!-- =========================================================
-* Municipalidad de San Miguel - Sistema de Reservas de Canchas
-==============================================================
-* Página del Producto: (Licencia requerida para uso comercial)
-=========================================================
- -->
-<!-- beautify ignore:start -->
 <html lang="es"
       class="light-style layout-wide customizer-hide"
       dir="ltr"
       data-theme="theme-semi-dark"
       data-assets-path="/"
-data-template="vertical-menu-template-semi-dark"
-xmlns:th="http://www.thymeleaf.org"
+      data-template="vertical-menu-template-semi-dark"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<!-- Mirrored from demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template-semi-dark/auth-two-steps-basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Apr 2024 23:15:13 GMT -->
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title>Demo: Cambio de Contraseña - Páginas | Municipalidad de San Miguel</title> <!-- Considera cambiar este título -->
+  <title>Restablecer Contraseña | Municipalidad de San Miguel</title>
 
-  <meta name="description" content="El dashboard más poderoso y completo construido en Bootstrap 5 para desarrolladores." />
-  <meta name="keywords" content="dashboard, cambio de contraseña, bootstrap 5, diseño, administración">
-  <!-- Canonical SEO -->
-  <link rel="canonical" href="https://themeselection.com/item/sneat-dashboard-pro-bootstrap/"> <!-- Externo, no necesita th:href -->
+  <meta name="description" content="Sistema de Reservas de Canchas para la Municipalidad de San Miguel." />
+  <meta name="keywords" content="reservas, canchas, municipalidad, san miguel, lima, perú, contraseña">
 
-  <!-- ? PROD Only: Google Tag Manager (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          '../../../../www.googletagmanager.com/gtm5445.html?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-5DDHKGP');</script>
-  <!-- End Google Tag Manager -->
-
-  <!-- Favicon (externo o manejar localmente con th:href) -->
   <link rel="icon" type="image/x-icon" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/favicon/favicon.ico" />
 
-  <!-- Fonts (externos) -->
   <link rel="preconnect" href="https://fonts.googleapis.com/">
   <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet">
 
-  <!-- Icons (recursos locales en static) -->
   <link rel="stylesheet" th:href="@{/vendor/fonts/boxicons.css}" />
   <link rel="stylesheet" th:href="@{/vendor/fonts/fontawesome.css}" />
   <link rel="stylesheet" th:href="@{/vendor/fonts/flag-icons.css}" />
 
-  <!-- Core CSS (recursos locales en static) -->
   <link rel="stylesheet" th:href="@{/vendor/css/rtl/core.css}" class="template-customizer-core-css" />
   <link rel="stylesheet" th:href="@{/vendor/css/rtl/theme-semi-dark.css}" class="template-customizer-theme-css" />
   <link rel="stylesheet" th:href="@{/css/demo.css}" />
 
-  <!-- Vendors CSS (recursos locales en static) -->
   <link rel="stylesheet" th:href="@{/vendor/libs/perfect-scrollbar/perfect-scrollbar.css}" />
   <link rel="stylesheet" th:href="@{/vendor/libs/typeahead-js/typeahead.css}" />
-  <!-- Vendor (recursos locales en static) -->
-  <link rel="stylesheet" th:href="@{/vendor/libs/@form-validation/form-validation.css}" /> <!-- Corregido @form-validation -->
+  <link rel="stylesheet" th:href="@{/vendor/libs/@form-validation/form-validation.css}" />
 
-  <!-- Page CSS (recursos locales en static) -->
   <link rel="stylesheet" th:href="@{/vendor/css/pages/page-auth.css}">
 
-  <!-- Helpers (recursos locales en static) -->
   <script th:src="@{/vendor/js/helpers.js}"></script>
-  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-  <!--? Template customizer: Para ocultar el personalizador, establezca displayCustomizer en false en config.js.  -->
   <script th:src="@{/vendor/js/template-customizer.js}"></script>
-  <!--? Config: Archivo de configuración obligatorio con variables globales y opciones de tema predeterminadas. Establezca su opción de tema preferida en este archivo.  -->
   <script th:src="@{/js/config.js}"></script>
 
 </head>
 
 <body>
-<!-- ? PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
 <noscript>
   <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0" style="display: none; visibility: hidden"></iframe>
 </noscript>
-<!-- End Google Tag Manager (noscript) -->
-
-<!-- Content -->
 <div class="authentication-wrapper authentication-basic px-4">
   <div class="authentication-inner">
-    <!-- Cambio de Contraseña -->
     <div class="card">
       <div class="card-body">
-        <!-- Logo -->
         <div class="app-brand justify-content-center">
-          <!-- Enlace a index.html (ajusta si index.html es manejado por controlador o es estático) -->
-          <a href="index.html" class="app-brand-link gap-2">
+          <a th:href="@{/index}" class="app-brand-link gap-2">
               <span class="app-brand-logo demo">
                 <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <defs>
@@ -125,39 +89,78 @@ xmlns:th="http://www.thymeleaf.org"
             <span class="app-brand-text demo text-body fw-bold">Reserva de espacios</span>
           </a>
         </div>
-        <!-- /Logo -->
-        <h4 class="mb-2">Cambio de Contraseña</h4>
-        <p class="mb-4">Ingrese su nueva contraseña y confírmela para actualizar su cuenta.</p>
-        <!-- Formulario de cambio de contraseña -->
-        <form id="passwordChangeForm" th:action="@{/confirmoContrasena}" method="POST"> <!-- th:action ajustado -->
+        <h4 class="mb-2">Restablecer Contraseña</h4>
+        <p class="mb-4">Para actualizar tu contraseña, por favor, ingresa tus datos.</p>
+
+        <form id="passwordResetForm" th:action="@{/confirmoContrasena}" method="POST">
+          <input type="hidden" name="token" th:value="${token}" />
+
+          <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <p th:text="${errorMessage}"></p>
+          </div>
+          <div th:if="${successMessage}" class="alert alert-success" role="alert">
+            <p th:text="${successMessage}"></p>
+          </div>
+
+          <div class="mb-3">
+            <label for="identificador" class="form-label">Tu Correo o DNI</label>
+            <input
+                    type="text"
+                    id="identificador"
+                    name="identificador"
+                    class="form-control"
+                    th:value="${identificadorRecuperado}"
+                    placeholder="Ingresa tu correo electrónico o DNI"
+                    required
+                    autofocus
+            />
+          </div>
+
           <div class="mb-3 form-password-toggle">
             <label class="form-label" for="new-password">Nueva Contraseña</label>
             <div class="input-group input-group-merge">
-              <input type="password" id="new-password" class="form-control" name="newPassword" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" required>
+              <input
+                      type="password"
+                      id="new-password"
+                      class="form-control"
+                      name="newPassword"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                      minlength="3"
+                      maxlength="100"
+                      required
+              />
               <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
             </div>
+            <div class="form-text">Mínimo 3 caracteres, máximo 100.</div>
           </div>
           <div class="mb-3 form-password-toggle">
             <label class="form-label" for="confirm-password">Confirmar Contraseña</label>
             <div class="input-group input-group-merge">
-              <input type="password" id="confirm-password" class="form-control" name="confirmPassword" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" required>
+              <input
+                      type="password"
+                      id="confirm-password"
+                      class="form-control"
+                      name="confirmPassword"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                      minlength="3"
+                      maxlength="100"
+                      required
+              />
               <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
             </div>
           </div>
-          <button class="btn btn-primary d-grid w-100 mb-3" type="submit">
-            Guardar nueva contraseña
+          <button class="btn btn-primary d-grid w-100" type="submit">
+            Restablecer Contraseña
           </button>
         </form>
-        <div class="text-center">
-          ¿No recuerda su contraseña actual?
-          <!-- Enlace a login -->
-          <a th:href="@{/login}"> <!-- Usando th:href -->
-            Inicie sesión
+        <div class="text-center mt-3">
+          <a th:href="@{/login}" class="d-flex align-items-center justify-content-center">
+            <i class="bx bx-chevron-left scaleX-n1-rtl bx-sm"></i>
+            Volver al inicio de sesión
           </a>
         </div>
       </div>
     </div>
-    <!-- /Cambio de Contraseña -->
   </div>
 </div>
 
@@ -170,35 +173,45 @@ xmlns:th="http://www.thymeleaf.org"
 <script th:src="@{/vendor/libs/typeahead-js/typeahead.js}"></script>
 <script th:src="@{/vendor/js/menu.js}"></script>
 
-<!-- endbuild -->
-
-<!-- Vendors JS (recursos locales en static) -->
 <script th:src="@{/vendor/libs/cleavejs/cleave.js}"></script>
-<script th:src="@{/vendor/libs/@form-validation/popular.js}"></script> <!-- Corregido @form-validation -->
-<script th:src="@{/vendor/libs/@form-validation/bootstrap5.js}"></script> <!-- Corregido @form-validation -->
-<script th:src="@{/vendor/libs/@form-validation/auto-focus.js}"></script> <!-- Corregido @form-validation -->
+<script th:src="@{/vendor/libs/@form-validation/popular.js}"></script>
+<script th:src="@{/vendor/libs/@form-validation/bootstrap5.js}"></script>
+<script th:src="@{/vendor/libs/@form-validation/auto-focus.js}"></script>
 
-<!-- Main JS (recurso local en static) -->
 <script th:src="@{/js/main.js}"></script>
 
-<!-- Page JS (recurso local en static) -->
 <script th:src="@{/js/pages-auth.js}"></script>
 <script th:src="@{/js/pages-auth-two-steps.js}"></script>
 
-<!-- Script para redirigir (considera si esto es necesario o si el controlador manejará la redirección) -->
-<!-- Este script de cliente puede no ser necesario si el servidor redirige después de un POST exitoso -->
-<!-- <script>
-  document.getElementById("passwordChangeForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    // Aquí se procesaría la actualización de la contraseña.
-    // Después de procesar (por ejemplo, mediante una llamada AJAX o como respuesta del backend),
-    // se redirige a la página de inicio de sesión.
-    window.location.href = "login.html"; // Considera usar un th:href en el HTML en lugar de JS para esto si es una redirección del lado del servidor
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('passwordResetForm');
+    const newPassword = document.getElementById('new-password');
+    const confirmPassword = document.getElementById('confirm-password');
+
+    form.addEventListener('submit', function (event) {
+      let isValid = true;
+
+      // Validación de coincidencia de contraseñas
+      if (newPassword.value !== confirmPassword.value) {
+        alert('Las contraseñas no coinciden.'); // O usar una validación de UI más elegante
+        confirmPassword.focus();
+        isValid = false;
+      }
+
+      // Validación de longitud (ya está en el HTML con minlength/maxlength, pero se puede reforzar)
+      if (newPassword.value.length < 3 || newPassword.value.length > 100) {
+        alert('La nueva contraseña debe tener entre 3 y 100 caracteres.');
+        newPassword.focus();
+        isValid = false;
+      }
+
+      if (!isValid) {
+        event.preventDefault(); // Detener el envío del formulario si hay errores
+      }
+    });
   });
-</script> -->
+</script>
 
 </body>
-
-<!-- Mirrored from demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template-semi-dark/auth-two-steps-basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Apr 2024 23:15:13 GMT -->
 </html>
-<!-- beautify ignore:end -->

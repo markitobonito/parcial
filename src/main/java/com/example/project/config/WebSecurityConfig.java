@@ -157,8 +157,8 @@ public class WebSecurityConfig {
                                 .requestMatchers("/superadmin","/superadmin/**").hasAuthority("SuperAdmin")
                                 .requestMatchers("/vecino", "/vecino/**").hasAuthority("Usuario final")
                                 .requestMatchers("/login", "/principal", "/registro/**", "/registro" ,"/olvidoContrasena","/olvido",
-                                        "/confirmoContrasena","/renovarContrasena","/logout","/css/**","/js/**",
-                                        "/img/**","/vendor/**").permitAll()
+                                        "/confirmoContrasena","/renovarContrasena","/logout","/css/**","/js/**","/renovarContrasena/**"
+                                        , "/img/**","/vendor/**").permitAll()
                                 .anyRequest().permitAll()
                 )
 
