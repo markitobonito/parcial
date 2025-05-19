@@ -7,8 +7,12 @@ import com.example.project.repository.EstadoUsuRepository;
 import com.example.project.repository.RolRepository;
 import com.example.project.repository.UsuariosRepository;
 import com.example.project.service.MailManager;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; // ¡Importar para hashear!
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID; // Necesario para generar un token "ficticio" para el enlace
 
 @Controller
@@ -174,46 +179,66 @@ public class HomeController {
         return "registro/nuevaContrasena"; // Tu formulario para la nueva contraseña
     }
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate; // Inyectamos el JdbcTemplate
+
     @PostMapping("/confirmoContrasena")
-    public String procesarNuevaContrasena(@RequestParam("identificador") String identificador,
-                                          @RequestParam("newPassword") String newPassword,
-                                          @RequestParam("confirmPassword") String confirmPassword,
-                                          @RequestParam(value = "token", required = false) String token,
-                                          RedirectAttributes redirectAttributes) {
+    @Transactional
+    public String procesarNuevaContrasena(
+            @RequestParam("identificador") String identificador,
+            @RequestParam("newPassword") String newPassword,
+            @RequestParam("confirmPassword") String confirmPassword,
+            @RequestParam(value = "token", required = false) String token,
+            RedirectAttributes redirectAttributes) {
 
-        // 1. Validar que las contraseñas coincidan (MANUALMENTE)
-        if (!newPassword.equals(confirmPassword)) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.");
+        try {
+            // 1. Validar que las contraseñas coincidan
+            if (!newPassword.equals(confirmPassword)) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.");
+                return "redirect:/renovarContrasena?token=" + (token != null ? token : "") + "&email=" + identificador;
+            }
+
+            // 2. Validar longitud de la contraseña
+            if (newPassword.length() < 3 || newPassword.length() > 100) {
+                redirectAttributes.addFlashAttribute("errorMessage", "La contraseña debe tener entre 3 y 100 caracteres.");
+                return "redirect:/renovarContrasena?token=" + (token != null ? token : "") + "&email=" + identificador;
+            }
+
+            // 3. Hashear la nueva contraseña
+            String hashedPassword = passwordEncoder.encode(newPassword);
+
+            // 4. Determinar si el identificador es un correo o un DNI y construir la consulta SQL
+            String sql;
+            Object[] params;
+            boolean esSoloNumeros = identificador.matches("\\d+");
+
+            if (esSoloNumeros) {
+                sql = "UPDATE Usuarios SET contrasena = ? WHERE dni = ?";
+                params = new Object[]{hashedPassword, Integer.parseInt(identificador)};
+            } else {
+                sql = "UPDATE Usuarios SET contrasena = ? WHERE correo = ?";
+                params = new Object[]{hashedPassword, identificador};
+            }
+
+            // 5. Ejecutar la consulta SQL dentro de la transacción
+            int filasActualizadas = jdbcTemplate.update(sql, params);
+
+            if (filasActualizadas > 0) {
+                redirectAttributes.addFlashAttribute("successMessage", "¡Tu contraseña ha sido restablecida exitosamente! Ya puedes iniciar sesión.");
+                return "redirect:/login";
+            } else {
+                // Si no se actualizó ninguna fila, el usuario no existe
+                redirectAttributes.addFlashAttribute("errorMessage", "El identificador (correo o DNI) proporcionado no está registrado.");
+                return "redirect:/renovarContrasena?token=" + (token != null ? token : "") + "&email=" + identificador;
+            }
+
+        } catch (Exception e) {
+            // Capturar cualquier error, incluyendo DataAccessException (que incluye SQLException)
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("errorMessage", "Ocurrió un error inesperado al restablecer la contraseña: " + e.getMessage());
             return "redirect:/renovarContrasena?token=" + (token != null ? token : "") + "&email=" + identificador;
         }
-
-        // 2. Validar longitud de la contraseña (MANUALMENTE)
-        if (newPassword.length() < 3 || newPassword.length() > 100) {
-            redirectAttributes.addFlashAttribute("errorMessage", "La contraseña debe tener entre 3 y 100 caracteres.");
-            return "redirect:/renovarContrasena?token=" + (token != null ? token : "") + "&email=" + identificador;
-        }
-
-        // 3. Buscar al usuario (tu lógica actual)
-        Usuarios usuario = null;
-        // ... (tu código para buscar el usuario)
-
-        if (usuario == null) {
-            redirectAttributes.addFlashAttribute("errorMessage", "El identificador (correo o DNI) proporcionado no está registrado.");
-            return "redirect:/renovarContrasena?token=" + (token != null ? token : "") + "&email=" + identificador;
-        }
-
-        // 4. HASHEAR y ACTUALIZAR la contraseña
-        String hashedPassword = passwordEncoder.encode(newPassword);
-        usuario.setContrasena(hashedPassword);
-
-        // ¡IMPORTANTE! NO establecer ningún valor para usuario.setConfirmContrasena()
-
-        usuariosRepository.save(usuario);
-
-        redirectAttributes.addFlashAttribute("successMessage", "¡Tu contraseña ha sido restablecida exitosamente! Ya puedes iniciar sesión.");
-        return "redirect:/login";
     }
-
     // Tu @PostMapping("/renovarContrasena") original para OTP, sin cambios
     @PostMapping("/renovarContrasena")
     public String procesarVerificacionOtp(@RequestParam("otp") String otpCode) {

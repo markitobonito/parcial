@@ -10,11 +10,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
-  <title>Restablecer Contraseña | Municipalidad de San Miguel</title>
-
-  <meta name="description" content="Sistema de Reservas de Canchas para la Municipalidad de San Miguel." />
-  <meta name="keywords" content="reservas, canchas, municipalidad, san miguel, lima, perú, contraseña">
+  <title>Restablecer Contraseña - Municipalidad de San Miguel</title>
+  <meta name="description" content="Restablece tu contraseña para el sistema de reservas de canchas de la Municipalidad de San Miguel." />
+  <meta name="keywords" content="municipalidad, reservas, canchas, restablecer contraseña" />
 
   <link rel="icon" type="image/x-icon" th:href="@{/img/icono.ico}" />
 
@@ -33,37 +31,71 @@
   <link rel="stylesheet" th:href="@{/vendor/libs/perfect-scrollbar/perfect-scrollbar.css}" />
   <link rel="stylesheet" th:href="@{/vendor/libs/typeahead-js/typeahead.css}" />
   <link rel="stylesheet" th:href="@{/vendor/libs/@form-validation/form-validation.css}" />
-
   <link rel="stylesheet" th:href="@{/vendor/css/pages/page-auth.css}">
+
+  <style>
+    body {
+      background-image: url('/img/img_2.png');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-color: #f0f0f0; /* Fallback color */
+    }
+
+    .authentication-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la pantalla */
+      padding: 20px; /* Añade un poco de espacio alrededor del contenido en pantallas pequeñas */
+    }
+
+    .authentication-inner {
+      width: 100%;
+      max-width: 400px; /* Ancho máximo del contenedor del formulario */
+    }
+
+    .app-brand {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .app-brand-logo img {
+      height: 40px;
+      width: 40px;
+      margin-right: 0.5rem; /* Espacio entre el logo y el texto */
+    }
+
+    .card {
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Opcional: añade una sombra a la tarjeta */
+    }
+  </style>
 
   <script th:src="@{/vendor/js/helpers.js}"></script>
   <script th:src="@{/vendor/js/template-customizer.js}"></script>
   <script th:src="@{/js/config.js}"></script>
-
 </head>
 
-<body>
+<body th:style="'background-image: url(\'' + @{/img/img_2.png} + '\'); background-size: cover; background-position: center center; background-repeat: no-repeat; background-attachment: fixed; background-color: #f0f0f0;'">
 <noscript>
   <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0" style="display: none; visibility: hidden"></iframe>
 </noscript>
-<div class="authentication-wrapper authentication-cover">
-  <div class="authentication-inner row m-0">
-    <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center p-0">
-      <div class="w-100 h-100 d-flex justify-content-center align-items-center">
-        <img th:src="@{/img/img_1.png}" class="img-fluid" alt="Imagen de restablecimiento de contraseña" style="width: 100%; height: 100%; object-fit: cover;">
-      </div>
-    </div>
-    <div class="d-flex col-12 col-lg-5 col-xl-4 align-items-center authentication-bg p-sm-5 p-4">
-      <div class="w-px-400 mx-auto">
-        <div class="app-brand mb-5">
-          <a th:href="@{/index}" class="app-brand-link gap-2">
+
+<div class="authentication-wrapper">
+  <div class="authentication-inner py-4">
+    <div class="card">
+      <div class="card-body">
+        <div class="app-brand justify-content-center">
+          <a th:href="@{/}" class="app-brand-link gap-2">
               <span class="app-brand-logo demo">
-                <img th:src="@{/img/icono.ico}" alt="Logo" style="height: 40px; width: 40px;">
+                 <img th:src="@{/img/icono.ico}" alt="Logo">
               </span>
             <span class="app-brand-text demo text-body fw-bold">Restablecer</span>
           </a>
         </div>
-        <h4 class="mb-2">Restablecer Contraseña</h4>
+        <h4 class="mb-2">Restablecer Contraseña 🔒</h4>
         <p class="mb-4">Ingresa tu nueva contraseña y confírmala.</p>
 
         <form id="passwordResetForm" th:action="@{/confirmoContrasena}" method="POST">
@@ -127,6 +159,7 @@
             Restablecer Contraseña
           </button>
         </form>
+
         <div class="text-center mt-3">
           <a th:href="@{/login}" class="d-flex align-items-center justify-content-center">
             <i class="bx bx-chevron-left scaleX-n1-rtl bx-sm"></i>
@@ -153,9 +186,7 @@
 <script th:src="@{/vendor/libs/@form-validation/auto-focus.js}"></script>
 
 <script th:src="@{/js/main.js}"></script>
-
 <script th:src="@{/js/pages-auth.js}"></script>
-<script th:src="@{/js/pages-auth-two-steps.js}"></script>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
