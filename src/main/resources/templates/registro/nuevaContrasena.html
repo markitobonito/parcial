@@ -51,7 +51,7 @@
     <div class="card">
       <div class="card-body">
         <div class="app-brand justify-content-center">
-          <a th:href="@{/index}" class="app-brand-link gap-2">
+          <a th:href="@{/login}" class="app-brand-link gap-2">
               <span class="app-brand-logo demo">
                 <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <defs>
@@ -103,7 +103,7 @@
           </div>
 
           <div class="mb-3">
-            <label for="identificador" class="form-label">Tu Correo o DNI</label>
+            <label for="identificador" class="form-label"><i class='bx bx-user'></i> Tu Correo o DNI</label>
             <input
                     type="text"
                     id="identificador"
@@ -117,7 +117,7 @@
           </div>
 
           <div class="mb-3 form-password-toggle">
-            <label class="form-label" for="new-password">Nueva Contraseña</label>
+            <label class="form-label" for="new-password"><i class='bx bx-key'></i> Nueva Contraseña</label>
             <div class="input-group input-group-merge">
               <input
                       type="password"
@@ -134,84 +134,11 @@
             <div class="form-text">Mínimo 3 caracteres, máximo 100.</div>
           </div>
           <div class="mb-3 form-password-toggle">
-            <label class="form-label" for="confirm-password">Confirmar Contraseña</label>
+            <label class="form-label" for="confirm-password"><i class='bx bx-check-double'></i> Confirmar Contraseña</label>
             <div class="input-group input-group-merge">
               <input
                       type="password"
                       id="confirm-password"
                       class="form-control"
                       name="confirmPassword"
-                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                      minlength="3"
-                      maxlength="100"
-                      required
-              />
-              <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-            </div>
-          </div>
-          <button class="btn btn-primary d-grid w-100" type="submit">
-            Restablecer Contraseña
-          </button>
-        </form>
-        <div class="text-center mt-3">
-          <a th:href="@{/login}" class="d-flex align-items-center justify-content-center">
-            <i class="bx bx-chevron-left scaleX-n1-rtl bx-sm"></i>
-            Volver al inicio de sesión
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script th:src="@{/vendor/libs/jquery/jquery.js}"></script>
-<script th:src="@{/vendor/libs/popper/popper.js}"></script>
-<script th:src="@{/vendor/js/bootstrap.js}"></script>
-<script th:src="@{/vendor/libs/perfect-scrollbar/perfect-scrollbar.js}"></script>
-<script th:src="@{/vendor/libs/hammer/hammer.js}"></script>
-<script th:src="@{/vendor/libs/i18n/i18n.js}"></script>
-<script th:src="@{/vendor/libs/typeahead-js/typeahead.js}"></script>
-<script th:src="@{/vendor/js/menu.js}"></script>
-
-<script th:src="@{/vendor/libs/cleavejs/cleave.js}"></script>
-<script th:src="@{/vendor/libs/@form-validation/popular.js}"></script>
-<script th:src="@{/vendor/libs/@form-validation/bootstrap5.js}"></script>
-<script th:src="@{/vendor/libs/@form-validation/auto-focus.js}"></script>
-
-<script th:src="@{/js/main.js}"></script>
-
-<script th:src="@{/js/pages-auth.js}"></script>
-<script th:src="@{/js/pages-auth-two-steps.js}"></script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('passwordResetForm');
-    const newPassword = document.getElementById('new-password');
-    const confirmPassword = document.getElementById('confirm-password');
-
-    form.addEventListener('submit', function (event) {
-      let isValid = true;
-
-      // Validación de coincidencia de contraseñas
-      if (newPassword.value !== confirmPassword.value) {
-        alert('Las contraseñas no coinciden.'); // O usar una validación de UI más elegante
-        confirmPassword.focus();
-        isValid = false;
-      }
-
-      // Validación de longitud (ya está en el HTML con minlength/maxlength, pero se puede reforzar)
-      if (newPassword.value.length < 3 || newPassword.value.length > 100) {
-        alert('La nueva contraseña debe tener entre 3 y 100 caracteres.');
-        newPassword.focus();
-        isValid = false;
-      }
-
-      if (!isValid) {
-        event.preventDefault(); // Detener el envío del formulario si hay errores
-      }
-    });
-  });
-</script>
-
-</body>
-</html>
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#

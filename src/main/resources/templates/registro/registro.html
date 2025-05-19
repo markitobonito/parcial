@@ -3,117 +3,141 @@
       class="light-style layout-wide customizer-hide"
       dir="ltr"
       data-theme="theme-semi-dark"
-      data-assets-path="/"  data-template="vertical-menu-template-semi-dark"
+      data-assets-path="/"
+      data-template="vertical-menu-template-semi-dark"
       xmlns:th="http://www.thymeleaf.org"
-     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-  <title>Registro - Páginas | Municipalidad de San Miguel - Sistema de Reservas de Canchas</title>
-  <meta name="description" content="El dashboard más poderoso y completo construido en Bootstrap 5 para desarrolladores." />
-  <meta name="keywords" content="dashboard, registro, bootstrap 5, diseño, administración" />
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          '../../../../www.googletagmanager.com/gtm5445.html?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-5DDHKGP');</script>
+
+  <title>Restablecer Contraseña | Municipalidad de San Miguel</title>
+
+  <meta name="description" content="Sistema de Reservas de Canchas para la Municipalidad de San Miguel." />
+  <meta name="keywords" content="reservas, canchas, municipalidad, san miguel, lima, perú, contraseña">
+
   <link rel="icon" type="image/x-icon" th:href="@{/img/icono.ico}" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com/">
   <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet">
+
   <link rel="stylesheet" th:href="@{/vendor/fonts/boxicons.css}" />
   <link rel="stylesheet" th:href="@{/vendor/fonts/fontawesome.css}" />
   <link rel="stylesheet" th:href="@{/vendor/fonts/flag-icons.css}" />
+
   <link rel="stylesheet" th:href="@{/vendor/css/rtl/core.css}" class="template-customizer-core-css" />
   <link rel="stylesheet" th:href="@{/vendor/css/rtl/theme-semi-dark.css}" class="template-customizer-theme-css" />
   <link rel="stylesheet" th:href="@{/css/demo.css}" />
+
   <link rel="stylesheet" th:href="@{/vendor/libs/perfect-scrollbar/perfect-scrollbar.css}" />
   <link rel="stylesheet" th:href="@{/vendor/libs/typeahead-js/typeahead.css}" />
-  <link rel="stylesheet" th:href="@{/vendor/libs/@form-validation/form-validation.css}" /> <link rel="stylesheet" th:href="@{/vendor/css/pages/page-auth.css}">
+  <link rel="stylesheet" th:href="@{/vendor/libs/@form-validation/form-validation.css}" />
+
+  <link rel="stylesheet" th:href="@{/vendor/css/pages/page-auth.css}">
+
   <script th:src="@{/vendor/js/helpers.js}"></script>
   <script th:src="@{/vendor/js/template-customizer.js}"></script>
   <script th:src="@{/js/config.js}"></script>
+
 </head>
+
 <body>
 <noscript>
   <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0" style="display: none; visibility: hidden"></iframe>
 </noscript>
 <div class="authentication-wrapper authentication-cover">
   <div class="authentication-inner row m-0">
-    <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center p-0"> <div class="w-100 h-100 d-flex justify-content-center align-items-center"> <img th:src="@{/img/img_1.png}" class="img-fluid" alt="Imagen de registro" style="width: 100%; height: 100%; object-fit: cover;">
-    </div>
+    <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center p-0">
+      <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+        <img th:src="@{/img/img_1.png}" class="img-fluid" alt="Imagen de restablecimiento de contraseña" style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
     </div>
     <div class="d-flex col-12 col-lg-5 col-xl-4 align-items-center authentication-bg p-sm-5 p-4">
       <div class="w-px-400 mx-auto">
         <div class="app-brand mb-5">
-          <a th:href="@{/}" class="app-brand-link gap-2"> <span class="app-brand-logo demo">
-            <img th:src="@{/img/icono.ico}" alt="Logo" style="height: 40px; width: 40px;"> </span>
-            <span class="app-brand-text demo text-body fw-bold">Registro</span>
+          <a th:href="@{/index}" class="app-brand-link gap-2">
+              <span class="app-brand-logo demo">
+                <img th:src="@{/img/icono.ico}" alt="Logo" style="height: 40px; width: 40px;">
+              </span>
+            <span class="app-brand-text demo text-body fw-bold">Restablecer</span>
           </a>
         </div>
-        <h4 class="mb-2">Municipalidad de San Miguel</h4>
-        <p class="mb-4">Cree su cuenta para comenzar a utilizar el sistema de reservas de espacios de la Municipalidad de San Miguel</p>
+        <h4 class="mb-2">Restablecer Contraseña</h4>
+        <p class="mb-4">Ingresa tu nueva contraseña y confírmala.</p>
 
-        <form id="formAuthentication" class="mb-3" th:action="@{/registro}" method="post" th:object="${usuario}">
-          <div class="mb-3">
-            <label for="dni" class="form-label">DNI</label>
-            <input type="text" class="form-control" id="dni" name="dni" placeholder="Ingrese su DNI" autofocus th:field="*{dni}" >
-            <span th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}" class="text-danger"></span>
+        <form id="passwordResetForm" th:action="@{/confirmoContrasena}" method="POST">
+          <input type="hidden" name="token" th:value="${token}" />
+
+          <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <p th:text="${errorMessage}"></p>
           </div>
-          <div class="mb-3">
-            <label for="correo" class="form-label" >Correo(Opcional)</label>
-            <input type="text" class="form-control" id="correo" name="correo" placeholder="Ingrese su correo electrónico" autofocus th:field="*{correo}">
-            <span th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}" class="text-danger"></span> </div>
-          <div class="mb-3 form-password-toggle">
-            <label class="form-label" for="contrasena">Contraseña</label>
-            <div class="input-group input-group-merge">
-              <input type="password" id="contrasena" class="form-control" name="contrasena" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" th:field="*{contrasena}" required/>
-              <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-            </div>
-            <span th:if="${#fields.hasErrors('contrasena')}" th:errors="*{contrasena}" class="text-danger"></span> </div>
-          <div class="mb-3 form-password-toggle">
-            <label class="form-label" for="confirmContrasena">Confirmar contraseña</label>
-            <div class="input-group input-group-merge">
-              <input type="password" id="confirmContrasena" class="form-control" name="confirmContrasena" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" th:field="*{confirmContrasena}" required/>
-              <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-            </div>
-            <span th:if="${#fields.hasErrors('confirmContrasena')}" th:errors="*{confirmContrasena}" class="text-danger"></span> </div>
+          <div th:if="${successMessage}" class="alert alert-success" role="alert">
+            <p th:text="${successMessage}"></p>
+          </div>
 
           <div class="mb-3">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms">
-              <label class="form-check-label" for="terms-conditions">
-                Acepto la <a href="javascript:void(0);">política de privacidad y los términos</a>
-              </label>
+            <label for="identificador" class="form-label"><i class='bx bx-user'></i> Tu Correo o DNI</label>
+            <input
+                    type="text"
+                    id="identificador"
+                    name="identificador"
+                    class="form-control"
+                    th:value="${identificadorRecuperado}"
+                    placeholder="Ingresa tu correo electrónico o DNI"
+                    required
+                    autofocus
+            />
+          </div>
+
+          <div class="mb-3 form-password-toggle">
+            <label class="form-label" for="new-password"><i class='bx bx-key'></i> Nueva Contraseña</label>
+            <div class="input-group input-group-merge">
+              <input
+                      type="password"
+                      id="new-password"
+                      class="form-control"
+                      name="newPassword"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                      minlength="3"
+                      maxlength="100"
+                      required
+              />
+              <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+            </div>
+            <div class="form-text">Mínimo 3 caracteres, máximo 100.</div>
+          </div>
+          <div class="mb-3 form-password-toggle">
+            <label class="form-label" for="confirm-password"><i class='bx bx-check-double'></i> Confirmar Contraseña</label>
+            <div class="input-group input-group-merge">
+              <input
+                      type="password"
+                      id="confirm-password"
+                      class="form-control"
+                      name="confirmPassword"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                      minlength="3"
+                      maxlength="100"
+                      required
+              />
+              <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
             </div>
           </div>
           <button class="btn btn-primary d-grid w-100" type="submit">
-            Registrarse
+            Restablecer Contraseña
           </button>
         </form>
-
-        <p class="text-center">
-          <span>¿Ya tiene una cuenta?</span>
-          <a th:href="@{/login}">
-            <span>Inicie sesión en su lugar</span>
+        <div class="text-center mt-3">
+          <a th:href="@{/login}" class="d-flex align-items-center justify-content-center">
+            <i class="bx bx-chevron-left scaleX-n1-rtl bx-sm"></i>
+            Volver al inicio de sesión
           </a>
-        </p>
-
-        <div class="divider my-4">
-          <div class="divider-text">o</div>
-        </div>
-
-        <div class="d-flex justify-content-center">
-
-          <a href="javascript:;" class="btn btn-icon btn-label-google-plus me-3">
-            <i class="tf-icons bx bxl-google-plus"></i>
-          </a>
-
         </div>
       </div>
     </div>
   </div>
 </div>
+
 <script th:src="@{/vendor/libs/jquery/jquery.js}"></script>
 <script th:src="@{/vendor/libs/popper/popper.js}"></script>
 <script th:src="@{/vendor/js/bootstrap.js}"></script>
@@ -122,9 +146,46 @@
 <script th:src="@{/vendor/libs/i18n/i18n.js}"></script>
 <script th:src="@{/vendor/libs/typeahead-js/typeahead.js}"></script>
 <script th:src="@{/vendor/js/menu.js}"></script>
-<script th:src="@{/vendor/libs/form-validation/popular.js}"></script> <script th:src="@{/vendor/libs/%40form-validation/bootstrap5.js}"></script> <script th:src="@{/vendor/libs/%40form-validation/auto-focus.js}"></script> <script th:src="@{/js/main.js}"></script>
+
+<script th:src="@{/vendor/libs/cleavejs/cleave.js}"></script>
+<script th:src="@{/vendor/libs/@form-validation/popular.js}"></script>
+<script th:src="@{/vendor/libs/@form-validation/bootstrap5.js}"></script>
+<script th:src="@{/vendor/libs/@form-validation/auto-focus.js}"></script>
+
+<script th:src="@{/js/main.js}"></script>
+
+<script th:src="@{/js/pages-auth.js}"></script>
+<script th:src="@{/js/pages-auth-two-steps.js}"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('passwordResetForm');
+    const newPassword = document.getElementById('new-password');
+    const confirmPassword = document.getElementById('confirm-password');
+
+    form.addEventListener('submit', function (event) {
+      let isValid = true;
+
+      // Validación de coincidencia de contraseñas (cliente-lado)
+      if (newPassword.value !== confirmPassword.value) {
+        alert('Las contraseñas no coinciden.');
+        confirmPassword.focus();
+        isValid = false;
+      }
+
+      // Validación de longitud (cliente-lado)
+      if (newPassword.value.length < 3 || newPassword.value.length > 100) {
+        alert('La nueva contraseña debe tener entre 3 y 100 caracteres.');
+        newPassword.focus();
+        isValid = false;
+      }
+
+      if (!isValid) {
+        event.preventDefault(); // Detener el envío si hay errores en el cliente
+      }
+    });
+  });
+</script>
 
 </body>
-
-
 </html>

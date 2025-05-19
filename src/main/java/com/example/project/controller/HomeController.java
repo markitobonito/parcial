@@ -174,71 +174,44 @@ public class HomeController {
         return "registro/nuevaContrasena"; // Tu formulario para la nueva contraseña
     }
 
-    @PostMapping("/confirmoContrasena") // Este es el POST de tu formulario nuevaContrasena.html
-    public String procesarNuevaContrasena(@RequestParam("identificador") String identificador, // ¡Campo añadido para reconfirmar!
+    @PostMapping("/confirmoContrasena")
+    public String procesarNuevaContrasena(@RequestParam("identificador") String identificador,
                                           @RequestParam("newPassword") String newPassword,
                                           @RequestParam("confirmPassword") String confirmPassword,
-                                          @RequestParam(value = "token", required = false) String token, // Recibimos el token del formulario
+                                          @RequestParam(value = "token", required = false) String token,
                                           RedirectAttributes redirectAttributes) {
 
-        // 1. Validar que las contraseñas coincidan
+        // 1. Validar que las contraseñas coincidan (MANUALMENTE)
         if (!newPassword.equals(confirmPassword)) {
             redirectAttributes.addFlashAttribute("errorMessage", "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.");
-            // Redirigimos de nuevo al formulario, manteniendo el token y el identificador
             return "redirect:/renovarContrasena?token=" + (token != null ? token : "") + "&email=" + identificador;
         }
 
-        // 2. Validar longitud de la contraseña (igual que en tu entidad Usuarios)
+        // 2. Validar longitud de la contraseña (MANUALMENTE)
         if (newPassword.length() < 3 || newPassword.length() > 100) {
             redirectAttributes.addFlashAttribute("errorMessage", "La contraseña debe tener entre 3 y 100 caracteres.");
-            // Redirigimos de nuevo al formulario, manteniendo el token y el identificador
             return "redirect:/renovarContrasena?token=" + (token != null ? token : "") + "&email=" + identificador;
         }
 
-        // 3. Buscar al usuario por el identificador (correo o DNI)
+        // 3. Buscar al usuario (tu lógica actual)
         Usuarios usuario = null;
-        String identificadorLimpio = identificador.trim().replaceAll("\\s+", "");
+        // ... (tu código para buscar el usuario)
 
-        boolean esSoloNumeros = true;
-        if (identificadorLimpio.isEmpty()) {
-            esSoloNumeros = false;
-        } else {
-            for (char c : identificadorLimpio.toCharArray()) {
-                if (!Character.isDigit(c)) {
-                    esSoloNumeros = false;
-                    break;
-                }
-            }
-        }
-
-        if (esSoloNumeros) {
-            try {
-                int dni = Integer.parseInt(identificadorLimpio);
-                // CORRECCIÓN AQUÍ: Usar .orElse(null) para obtener un Usuario o null
-                usuario = usuariosRepository.findByDni(dni).orElse(null);
-            } catch (NumberFormatException e) {
-                System.out.println("Intento de restablecimiento con DNI inválido o no encontrado: " + identificadorLimpio);
-            }
-        } else {
-            // CORRECCIÓN AQUÍ: Usar .orElse(null) para obtener un Usuario o null
-            usuario = usuariosRepository.findByCorreo(identificadorLimpio).orElse(null);
-        }
         if (usuario == null) {
-            // El usuario no fue encontrado con el identificador proporcionado
             redirectAttributes.addFlashAttribute("errorMessage", "El identificador (correo o DNI) proporcionado no está registrado.");
-            // Redirigimos de nuevo al formulario, manteniendo el token
             return "redirect:/renovarContrasena?token=" + (token != null ? token : "") + "&email=" + identificador;
         }
 
-        // 4. HASHEAR y ACTUALIZAR la contraseña en la base de datos
+        // 4. HASHEAR y ACTUALIZAR la contraseña
         String hashedPassword = passwordEncoder.encode(newPassword);
         usuario.setContrasena(hashedPassword);
-        usuariosRepository.save(usuario); // Guarda el usuario con la nueva contraseña hasheada
 
-        System.out.println("Contraseña del usuario " + identificadorLimpio + " actualizada y hasheada.");
+        // ¡IMPORTANTE! NO establecer ningún valor para usuario.setConfirmContrasena()
+
+        usuariosRepository.save(usuario);
 
         redirectAttributes.addFlashAttribute("successMessage", "¡Tu contraseña ha sido restablecida exitosamente! Ya puedes iniciar sesión.");
-        return "redirect:/login"; // Redirige al login
+        return "redirect:/login";
     }
 
     // Tu @PostMapping("/renovarContrasena") original para OTP, sin cambios
