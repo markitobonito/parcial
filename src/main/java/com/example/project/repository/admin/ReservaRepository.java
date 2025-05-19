@@ -51,4 +51,6 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
         ORDER BY porcentajeUso DESC
         """, nativeQuery = true)
     List<ReservaDto> obtenerResumenReservas();
+    @Query(value = "select * from reserva where vecino=?1 and fecha>curdate(); ", nativeQuery = true)
+    List<Reserva> findByIDUsuario(int idUsuario);
 }

@@ -60,7 +60,7 @@
 <div class="layout-wrapper layout-content-navbar">
   <div class="layout-container">
     <div class="layout-page">
-      <nav class="mt-4 layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+      <!--nav class="mt-4 layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
 
 
         <div class="layout-menu-toggle navbar-nav align-items-xl-center me-1 me-xl-0   d-xl-none ">
@@ -133,7 +133,7 @@
         </div>
 
 
-      </nav>
+      </nav-->
 
 
       <div class="content-wrapper">
@@ -183,9 +183,9 @@
               <div class="col-lg-5">
                 <h4 class="text-primary mt-2">Descripción</h4>
                 <p class="mb-4 text-dark">
-                  El <span th:text="${espacio.nombre}">Espacio Deportivo 1</span> cuenta con una cancha de grass sintético ideal para la práctica de fútbol, entrenamientos,
+                  <span th:text="| ${espacio.descripcion}|">Cuenta con una cancha de grass sintético ideal para la práctica de fútbol, entrenamientos,
                   actividades recreativas y eventos deportivos. Su superficie es resistente, de bajo mantenimiento y adecuada para
-                  todas las edades. <br><br>
+                  todas las edades.</span> <br><br>
                   Ubicada en <span th:text="${espacio.idLugar.lugar}"></span> una zona accesible y segura, esta cancha está equipada con iluminación para actividades
                   nocturnas y cercanía a baños públicos y bebederos. <br><br>
                   Recuerda cumplir con nuestras <a th:href="@{/normas}" style="color: blue; text-decoration: underline;">normas y reglamento de uso</a>.
@@ -201,19 +201,20 @@
                 <h4 class="text-primary">Ubicación</h4>
                 <p class="text-dark" th:text="${espacio.idLugar.lugar}">Aquí irá un mapa con la ubicación exacta</p> <div class="row pt-1" style="text-align: center;">
                 <div class="col">
-                  <a th:href="@{|/vecino/disponibilidad?id=${espacio.idEspacio}|}" class="btn btn-facebook" style="font-size: 1rem; border-radius: 15px; margin: 0 20px;">Ver Disponibilidad</a> <a th:href="@{/vecino/ver-espacios}" class="btn btn-primary" style="font-size: 1rem; border-radius: 15px; margin: 0 20px;">Regresar</a> </div>
+                  <a th:href="@{|/vecino/disponibilidad?id=${espacio.idEspacio}|}" class="btn btn-facebook" style="font-size: 1rem; border-radius: 15px; margin: 0 20px;">Ver Disponibilidad</a> <a th:href="@{/vecino/verEspacios}" class="btn btn-primary" style="font-size: 1rem; border-radius: 15px; margin: 0 20px;">Regresar</a> </div>
               </div>
 
               </div>
             </div>
           </div>
-
+        </div>
+      </div>
 
 
           <div class="content-backdrop fade"></div>
         </div>
       </div>
-
+    </div>
       <script th:src="@{/vendor/libs/jquery/jquery.js}"></script>
       <script th:src="@{/vendor/libs/popper/popper.js}"></script>
       <script th:src="@{/vendor/js/bootstrap.js}"></script>

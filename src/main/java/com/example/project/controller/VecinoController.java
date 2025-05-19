@@ -7,10 +7,14 @@ import com.example.project.repository.RolRepository;
 import com.example.project.repository.UsuariosRepository;
 import com.example.project.repository.admin.EspacioRepository;
 import com.example.project.repository.admin.ReservaRepository;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.Inet4Address;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -69,8 +73,18 @@ public class VecinoController {
     }
 
     @GetMapping("/resumen")
-    public String resumen(Model model) {
+    public String resumen(@AuthenticationPrincipal Usuarios user,Model model) {
         List<Usuarios> usuarios = usuariosRepository.findAll(); // Obtiene todos los usuarios
+        /*if(user.getIdUsuarios()==null){
+            user.setIdUsuarios(1);
+        }
+        Integer id= user.getIdUsuarios();
+        if(id==null){
+            id=1;
+        }*/
+        int id=1;
+        List<Reserva> reservas = reservaRepository.findByIDUsuario(id);
+        model.addAttribute("reservas", reservas);
         model.addAttribute("usuarios", usuarios); // Pasa la lista a la vista
         return "vecino/vecino-resumen-reserva"; // Usa la misma vista para mostrar todos los DNIs
     }

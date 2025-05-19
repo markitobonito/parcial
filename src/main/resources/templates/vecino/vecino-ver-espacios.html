@@ -62,7 +62,7 @@
 <div class="layout-wrapper layout-content-navbar" >
   <div class="layout-container">
     <div class="layout-page">
-      <nav class="mt-4 layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+      <!--nav class="mt-4 layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
 
 
         <div class="layout-menu-toggle navbar-nav align-items-xl-center me-1 me-xl-0   d-xl-none ">
@@ -136,7 +136,7 @@
         </div>
 
 
-      </nav>
+      </nav-->
 
 
       <div class="content-wrapper">
@@ -198,7 +198,7 @@
                         </div>
                         <div class="rounded-1 text-center flex-grow-2 mb-3 mt-3">
                           <a data-bs-toggle="modal" href="#evento1">
-                            <img class="img-fluid" th:src="@{|/admin/imagen/${espacio.idEspacio}/1|}" alt="Imagen de espacio" style="height: 200px; object-fit: cover; border-radius: 5px;"/>
+                            <img class="img-fluid" th:src="@{/admin/imagen/{id}/{numero}(id=${espacio.idEspacio}, numero=1)}" alt="Imagen de espacio" style="height: 200px; object-fit: cover; border-radius: 5px;"/>
                           </a>
                         </div>
                         <p class="text-body" th:text="${espacio.idLugar.lugar}"></p>
