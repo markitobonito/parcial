@@ -47,14 +47,14 @@ public class HomeController {
     }
 
     // --- MÉTODOS EXISTENTES (mantener sin cambios si ya funcionan) ---
-    @GetMapping(value = {"/", "/index", "/index.html"})
+    @GetMapping("/")
     public String index() {
-        return "index";
+        return "registro/principal";
     }
 
     @GetMapping("/login")
     public String login() {
-        return "login";
+        return "registro/login";
     }
 
     @GetMapping("/registro")
@@ -127,7 +127,7 @@ public class HomeController {
         if (esSoloNumeros) {
             // Flujo para DNI/Teléfono (OTP) - Si este flujo existe y no quieres cambiarlo
             redirectAttributes.addFlashAttribute("identificador", identificadorLimpio);
-            return "redirect:/registro/verificarNumero"; // Asegúrate de que esta URL exista
+            return "registro/verificarNumero"; // Asegúrate de que esta URL exista
         } else {
             // Flujo para Correo Electrónico
             String emailDestino = identificadorLimpio;
